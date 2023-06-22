@@ -34,12 +34,19 @@ class Grid {
     return this.nodes[row] && this.nodes[row][col];
   }
 
+  setStartNode(row: number, col: number) {
+    this.startNode = [row, col];
+  }
+
+  setEndNode(row: number, col: number) {
+    this.endNode = [row, col];
+  }
   getStartNode(): Stem {
     return this.nodes[this.startNode[0]][this.startNode[1]];
   }
 
   getEndNode(): Stem {
-    return this.nodes[this.endNode[0]][this.startNode[1]];
+    return this.nodes[this.endNode[0]][this.endNode[1]];
   }
 
 }
@@ -72,6 +79,17 @@ function initializeGrid(): void {
     }
     boardBody.appendChild(tableRow);
   }
+
+  const debugButton = document.createElement('button');
+  debugButton.textContent = 'Debug';
+  debugButton.addEventListener('click', handleDebugButtonClick);
+  container.appendChild(debugButton);
+}
+
+
+function handleDebugButtonClick(): void {
+  console.log(grid.getStartNode());
+  console.log(grid.getEndNode());
 }
 
 
@@ -101,6 +119,11 @@ function handleMouseMove(event: MouseEvent): void {
   }
 
   let draggingType = draggingNode.type;
+  if (draggingType === 'start-node') {
+    grid.setStartNode(newRow, newCol);
+  } else if (draggingType === 'end-node') {
+    grid.setEndNode(newRow, newCol);
+  }
   draggingNode.type = 'default'
   draggingNode = newNode;
   draggingNode.type = draggingType
