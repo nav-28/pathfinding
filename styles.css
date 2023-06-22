@@ -1,13 +1,6 @@
-#container {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
-  gap: 1px;
-}
-
 .node {
-  width: 50px;
-  height: 50px;
+  width: 25px;
+  height: 25px;
   background-color: #eee;
   border: 1px solid #ddd;
 }
