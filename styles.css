@@ -4,16 +4,53 @@
   background-color: #eee;
   border: 1px solid #ddd;
 }
-
 .start-node {
-  background-color: #6ee55e;
+background-image: url(assets/start.svg);
+background-position: center;
+background-repeat: no-repeat;
+background-size: contain;
+animation-name: specialNodes;
+animation-duration: 1.0s;
+animation-timing-function: ease-out;
+animation-delay: 0;
+animation-direction: alternate;
+animation-iteration-count: 1;
+animation-fill-mode: forwards;
+animation-play-state: running;
 }
+
 
 
 .end-node{
-  background-color: #ff7777;
+background-image: url(assets/target.svg);
+background-position: center;
+background-repeat: no-repeat;
+background-size: contain;
+animation-name: specialNodes;
+animation-duration: 1.0s;
+animation-timing-function: ease-out;
+animation-delay: 0;
+animation-direction: alternate;
+animation-iteration-count: 1;
+animation-fill-mode: forwards;
+animation-play-state: running;
 }
 
+
+
+@keyframes specialNodes {
+  0% {
+    transform: scale(.3);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1.0);
+  }
+}
 
 
 
