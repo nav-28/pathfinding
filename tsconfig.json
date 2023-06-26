@@ -4,6 +4,6 @@
     "outDir": "dist"
   },
   "include": [
-    "script.ts"
+    "src/main.ts"
   ]
 }

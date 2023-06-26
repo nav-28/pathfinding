@@ -54,6 +54,11 @@ class Grid {
 function initializeGrid(): void {
   const container = document.getElementById('container');
   if (!container) return;
+
+  const existingTable = container.querySelector('table');
+  if (existingTable) {
+    container.innerHTML = '';
+  }
   const board = document.createElement('table');
   const boardBody = document.createElement('tbody');
   board.appendChild(boardBody)
@@ -141,7 +146,15 @@ function handleMouseUp(): void {
 }
 
 
+function updateGridSize(): void {
+  grid = new Grid(window.innerHeight / (25 * 2), window.innerWidth / 25);
+  initializeGrid();
+}
+
 const kStartNode = [5, 3]
 const kEndNode = [9, 9]
-const grid = new Grid(15, 20);
+var grid = new Grid(window.innerHeight / (25 * 2), window.innerWidth / 25);
+
+
+window.addEventListener('resize', updateGridSize);
 initializeGrid();
