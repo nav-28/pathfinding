@@ -1,5 +1,5 @@
 class Stem {
-  constructor(public row: number, public col: number, public type: string) { }
+  constructor(public row: number, public col: number, public type: string) {}
 }
 
 class Grid {
@@ -105,14 +105,13 @@ function handleNodeDrag(node: Stem, _: MouseEvent): void {
 function handleMouseMove(event: MouseEvent): void {
   if (!draggingNode) return;
 
-  const newStartNode = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
-  if (!newStartNode || !newStartNode.classList.contains('node')) return;
+  const newSpecialNode = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
+  if (!newSpecialNode || !newSpecialNode.classList.contains('node')) return;
 
-  const [newRow, newCol] = newStartNode.id.split('-').map(Number);
+  const [newRow, newCol] = newSpecialNode.id.split('-').map(Number);
   const newNode = grid.getNode(newRow, newCol);
   if (!newNode || newNode.type !== 'default') return;
 
-  // Remove previous node type class
   const previousNodeElement = document.getElementById(`${draggingNode.row}-${draggingNode.col}`);
   if (previousNodeElement) {
     previousNodeElement.classList.remove(draggingNode.type.toLowerCase());
@@ -128,16 +127,14 @@ function handleMouseMove(event: MouseEvent): void {
   draggingNode = newNode;
   draggingNode.type = draggingType
 
-  // Update node and its corresponding element
-  newStartNode.classList.add(draggingType);
-
-
+  newSpecialNode.classList.add(draggingType);
 }
 
 function handleMouseUp(): void {
   document.removeEventListener('mousemove', handleMouseMove);
   document.removeEventListener('mouseup', handleMouseUp);
 
+  // add event listener to new special node
   const nodeElement = document.getElementById(`${draggingNode.row}-${draggingNode.col}`)
   nodeElement.addEventListener('mousedown', handleNodeDrag.bind(null, grid.getNode(draggingNode.row, draggingNode.col)))
   draggingNode = null
