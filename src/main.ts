@@ -5,28 +5,107 @@ class Grid {
   private startNode: number[];
   private endNode: number[];
 
+  private draggingNode: Edge | undefined;
+  private draggingType: EdgeType;
+
   constructor(public rows: number, public cols: number) {
+    const container = document.getElementById('container');
+    if (!container) return;
+    const existingTable = container.querySelector('table');
+    if (existingTable) {
+      container.innerHTML = '';
+    }
+    this.draggingNode = undefined;
+    this.draggingType = EdgeType.Default;
+    this.handleNodeDrag = this.handleNodeDrag.bind(this);
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
+    const board = document.createElement('table');
+    const boardBody = document.createElement('tbody');
+    board.appendChild(boardBody);
+    container.appendChild(board);
     this.nodes = [];
 
     for (let row = 0; row < this.rows; row++) {
       this.nodes[row] = [];
+      const tableRow = document.createElement('tr');
+      tableRow.classList.add(`${row}`);
       for (let col = 0; col < this.cols; col++) {
+        const nodeElement = document.createElement('td');
+        nodeElement.id = `${row}-${col}`;
+        nodeElement.className = 'node';
         if (row == kStartNode[0] && col == kStartNode[1]) {
-          this.nodes[row][col] = new Edge(row, col, EdgeType.StartNode);
+          nodeElement.classList.add(EdgeType.StartNode);
+          this.nodes[row][col] = new Edge(row, col, EdgeType.StartNode, nodeElement);
           this.startNode = [row, col];
+          tableRow.appendChild(nodeElement);
+          nodeElement.addEventListener('mousedown', this.handleNodeDrag.bind(null, this.nodes[row][col]));
           continue;
         }
 
         if (row == kEndNode[0] && col == kEndNode[1]) {
-          this.nodes[row][col] = new Edge(row, col, EdgeType.EndNode);
+          nodeElement.classList.add(EdgeType.EndNode);
+          this.nodes[row][col] = new Edge(row, col, EdgeType.EndNode, nodeElement);
           this.endNode = [row, col];
+          tableRow.appendChild(nodeElement);
+          nodeElement.addEventListener('mousedown', this.handleNodeDrag.bind(null, this.nodes[row][col]));
           continue;
         }
-        this.nodes[row][col] = new Edge(row, col, EdgeType.Default);
+        this.nodes[row][col] = new Edge(row, col, EdgeType.Default, nodeElement);
+        tableRow.appendChild(nodeElement);
       }
+      boardBody.appendChild(tableRow);
     }
+    const debugButton = document.createElement('button');
+    debugButton.textContent = 'Debug';
+    debugButton.addEventListener('click', handleDebugButtonClick);
+    container.appendChild(debugButton);
 
   }
+
+
+  handleNodeDrag(node: Edge, _: MouseEvent): void {
+    this.draggingNode = node;
+    document.addEventListener('mousemove', this.handleMouseMove);
+    document.addEventListener('mouseup', this.handleMouseUp);
+  }
+
+  handleMouseMove(event: MouseEvent): void {
+    if (!this.draggingNode) return;
+
+    const newSpecialNode = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
+    if (!newSpecialNode || !newSpecialNode.classList.contains('node')) return;
+
+    const [newRow, newCol] = newSpecialNode.id.split('-').map(Number);
+    const newNode = this.getNode(newRow, newCol);
+    if (!newNode || newNode.type !== EdgeType.Default) return;
+
+    const previousNodeElement = this.draggingNode.element;
+    previousNodeElement.classList.remove(this.draggingNode.type);
+
+    this.draggingType = this.draggingNode.type;
+    if (this.draggingType === EdgeType.StartNode) {
+      this.setStartNode(newRow, newCol);
+    } else if (this.draggingType === EdgeType.EndNode) {
+      grid.setEndNode(newRow, newCol);
+    }
+    this.draggingNode.type = EdgeType.Default
+    this.draggingNode = newNode;
+    this.draggingNode.type = this.draggingType
+
+    newSpecialNode.classList.add(this.draggingType);
+  }
+
+  handleMouseUp(): void {
+    document.removeEventListener('mousemove', this.handleMouseMove);
+    document.removeEventListener('mouseup', this.handleMouseUp);
+
+    // add event listener to new special node
+    const nodeElement = document.getElementById(`${this.draggingNode.row}-${this.draggingNode.col}`)
+    nodeElement.addEventListener('mousedown', this.handleNodeDrag.bind(null, this.nodes[this.draggingNode.row][this.draggingNode.col]))
+    this.draggingNode = undefined;
+  }
+
 
   getNode(row: number, col: number): Edge | undefined {
     return this.nodes[row] && this.nodes[row][col];
@@ -49,104 +128,22 @@ class Grid {
 
 }
 
-function initializeGrid(): void {
-  const container = document.getElementById('container');
-  if (!container) return;
-
-  const existingTable = container.querySelector('table');
-  if (existingTable) {
-    container.innerHTML = '';
-  }
-  const board = document.createElement('table');
-  const boardBody = document.createElement('tbody');
-  board.appendChild(boardBody)
-  container.appendChild(board);
-  for (let row = 0; row < grid.rows; row++) {
-    const tableRow = document.createElement('tr');
-    tableRow.classList.add(`${row}`);
-    for (let col = 0; col < grid.cols; col++) {
-      const node = grid.getNode(row, col);
-
-      const nodeElement = document.createElement('td');
-      nodeElement.id = `${row}-${col}`;
-      nodeElement.className = 'node';
-      if (node.type === EdgeType.StartNode) {
-        nodeElement.classList.add('start-node')
-        nodeElement.addEventListener('mousedown', handleNodeDrag.bind(null, node))
-      }
-      if (node.type === EdgeType.EndNode) {
-        nodeElement.classList.add('end-node')
-        nodeElement.addEventListener('mousedown', handleNodeDrag.bind(null, node))
-      }
-      tableRow.appendChild(nodeElement);
-    }
-    boardBody.appendChild(tableRow);
-  }
-
-  const debugButton = document.createElement('button');
-  debugButton.textContent = 'Debug';
-  debugButton.addEventListener('click', handleDebugButtonClick);
-  container.appendChild(debugButton);
-}
-
-
 function handleDebugButtonClick(): void {
-  console.log(grid.getStartNode());
-  console.log(grid.getEndNode());
-}
+  for (var i = 0; i < grid.rows; i++) {
+    for (var j = 0; j < grid.cols; j++) {
+      if (grid.nodes[i][j].type !== EdgeType.Default) {
+        console.log(grid.nodes[i][j]);
+      }
+    }
 
-
-let draggingNode: Edge | null = null;
-let draggingType: EdgeType;
-
-function handleNodeDrag(node: Edge, _: MouseEvent): void {
-  draggingNode = node;
-  document.addEventListener('mousemove', handleMouseMove);
-  document.addEventListener('mouseup', handleMouseUp);
-}
-
-function handleMouseMove(event: MouseEvent): void {
-  if (!draggingNode) return;
-
-  const newSpecialNode = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
-  if (!newSpecialNode || !newSpecialNode.classList.contains('node')) return;
-
-  const [newRow, newCol] = newSpecialNode.id.split('-').map(Number);
-  const newNode = grid.getNode(newRow, newCol);
-  if (!newNode || newNode.type !== EdgeType.Default) return;
-
-  const previousNodeElement = document.getElementById(`${draggingNode.row}-${draggingNode.col}`);
-  if (previousNodeElement) {
-    previousNodeElement.classList.remove(draggingNode.type.toLowerCase());
   }
 
-  let draggingType = draggingNode.type;
-  if (draggingType === EdgeType.StartNode) {
-    grid.setStartNode(newRow, newCol);
-  } else if (draggingType === EdgeType.EndNode) {
-    grid.setEndNode(newRow, newCol);
-  }
-  draggingNode.type = EdgeType.Default
-  draggingNode = newNode;
-  draggingNode.type = draggingType
-
-  newSpecialNode.classList.add(draggingType);
 }
 
-function handleMouseUp(): void {
-  document.removeEventListener('mousemove', handleMouseMove);
-  document.removeEventListener('mouseup', handleMouseUp);
-
-  // add event listener to new special node
-  const nodeElement = document.getElementById(`${draggingNode.row}-${draggingNode.col}`)
-  nodeElement.addEventListener('mousedown', handleNodeDrag.bind(null, grid.getNode(draggingNode.row, draggingNode.col)))
-  draggingNode = null
-}
 
 
 function updateGridSize(): void {
   grid = new Grid(window.innerHeight / (25 * 2), window.innerWidth / 25);
-  initializeGrid();
 }
 
 const kStartNode = [5, 3]
@@ -155,4 +152,3 @@ var grid = new Grid(window.innerHeight / (25 * 2), window.innerWidth / 25);
 
 
 window.addEventListener('resize', updateGridSize);
-initializeGrid();

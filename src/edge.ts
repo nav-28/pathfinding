@@ -7,5 +7,5 @@ export enum EdgeType {
 }
 
 export class Edge {
-    constructor(public row: number, public col: number, public type: EdgeType) {}
+    constructor(public row: number, public col: number, public type: EdgeType, public element: HTMLTableCellElement) {}
 }
