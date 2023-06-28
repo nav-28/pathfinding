@@ -1,9 +1,7 @@
-class Stem {
-  constructor(public row: number, public col: number, public type: string) {}
-}
+import { Edge, EdgeType } from './edge';
 
 class Grid {
-  public nodes: Stem[][];
+  public nodes: Edge[][];
   private startNode: number[];
   private endNode: number[];
 
@@ -14,23 +12,23 @@ class Grid {
       this.nodes[row] = [];
       for (let col = 0; col < this.cols; col++) {
         if (row == kStartNode[0] && col == kStartNode[1]) {
-          this.nodes[row][col] = new Stem(row, col, 'start-node');
+          this.nodes[row][col] = new Edge(row, col, EdgeType.StartNode);
           this.startNode = [row, col];
           continue;
         }
 
         if (row == kEndNode[0] && col == kEndNode[1]) {
-          this.nodes[row][col] = new Stem(row, col, 'end-node');
+          this.nodes[row][col] = new Edge(row, col, EdgeType.EndNode);
           this.endNode = [row, col];
           continue;
         }
-        this.nodes[row][col] = new Stem(row, col, 'default');
+        this.nodes[row][col] = new Edge(row, col, EdgeType.Default);
       }
     }
 
   }
 
-  getNode(row: number, col: number): Stem | undefined {
+  getNode(row: number, col: number): Edge | undefined {
     return this.nodes[row] && this.nodes[row][col];
   }
 
@@ -41,11 +39,11 @@ class Grid {
   setEndNode(row: number, col: number) {
     this.endNode = [row, col];
   }
-  getStartNode(): Stem {
+  getStartNode(): Edge {
     return this.nodes[this.startNode[0]][this.startNode[1]];
   }
 
-  getEndNode(): Stem {
+  getEndNode(): Edge {
     return this.nodes[this.endNode[0]][this.endNode[1]];
   }
 
@@ -72,11 +70,11 @@ function initializeGrid(): void {
       const nodeElement = document.createElement('td');
       nodeElement.id = `${row}-${col}`;
       nodeElement.className = 'node';
-      if (node.type === 'start-node') {
+      if (node.type === EdgeType.StartNode) {
         nodeElement.classList.add('start-node')
         nodeElement.addEventListener('mousedown', handleNodeDrag.bind(null, node))
       }
-      if (node.type === 'end-node') {
+      if (node.type === EdgeType.EndNode) {
         nodeElement.classList.add('end-node')
         nodeElement.addEventListener('mousedown', handleNodeDrag.bind(null, node))
       }
@@ -98,10 +96,10 @@ function handleDebugButtonClick(): void {
 }
 
 
-let draggingNode: Stem | null = null;
-let draggingType: string;
+let draggingNode: Edge | null = null;
+let draggingType: EdgeType;
 
-function handleNodeDrag(node: Stem, _: MouseEvent): void {
+function handleNodeDrag(node: Edge, _: MouseEvent): void {
   draggingNode = node;
   document.addEventListener('mousemove', handleMouseMove);
   document.addEventListener('mouseup', handleMouseUp);
@@ -115,7 +113,7 @@ function handleMouseMove(event: MouseEvent): void {
 
   const [newRow, newCol] = newSpecialNode.id.split('-').map(Number);
   const newNode = grid.getNode(newRow, newCol);
-  if (!newNode || newNode.type !== 'default') return;
+  if (!newNode || newNode.type !== EdgeType.Default) return;
 
   const previousNodeElement = document.getElementById(`${draggingNode.row}-${draggingNode.col}`);
   if (previousNodeElement) {
@@ -123,12 +121,12 @@ function handleMouseMove(event: MouseEvent): void {
   }
 
   let draggingType = draggingNode.type;
-  if (draggingType === 'start-node') {
+  if (draggingType === EdgeType.StartNode) {
     grid.setStartNode(newRow, newCol);
-  } else if (draggingType === 'end-node') {
+  } else if (draggingType === EdgeType.EndNode) {
     grid.setEndNode(newRow, newCol);
   }
-  draggingNode.type = 'default'
+  draggingNode.type = EdgeType.Default
   draggingNode = newNode;
   draggingNode.type = draggingType
 

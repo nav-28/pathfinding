@@ -1,13 +1,21 @@
 (function () {
     'use strict';
 
-    class Stem {
+    var EdgeType;
+    (function (EdgeType) {
+        EdgeType["StartNode"] = "start-node";
+        EdgeType["EndNode"] = "end-node";
+        EdgeType["Wall"] = "wall";
+        EdgeType["Default"] = "default";
+    })(EdgeType || (EdgeType = {}));
+    class Edge {
         constructor(row, col, type) {
             this.row = row;
             this.col = col;
             this.type = type;
         }
     }
+
     class Grid {
         constructor(rows, cols) {
             this.rows = rows;
@@ -17,16 +25,16 @@
                 this.nodes[row] = [];
                 for (let col = 0; col < this.cols; col++) {
                     if (row == kStartNode[0] && col == kStartNode[1]) {
-                        this.nodes[row][col] = new Stem(row, col, 'start-node');
+                        this.nodes[row][col] = new Edge(row, col, EdgeType.StartNode);
                         this.startNode = [row, col];
                         continue;
                     }
                     if (row == kEndNode[0] && col == kEndNode[1]) {
-                        this.nodes[row][col] = new Stem(row, col, 'end-node');
+                        this.nodes[row][col] = new Edge(row, col, EdgeType.EndNode);
                         this.endNode = [row, col];
                         continue;
                     }
-                    this.nodes[row][col] = new Stem(row, col, 'default');
+                    this.nodes[row][col] = new Edge(row, col, EdgeType.Default);
                 }
             }
         }
@@ -66,11 +74,11 @@
                 const nodeElement = document.createElement('td');
                 nodeElement.id = `${row}-${col}`;
                 nodeElement.className = 'node';
-                if (node.type === 'start-node') {
+                if (node.type === EdgeType.StartNode) {
                     nodeElement.classList.add('start-node');
                     nodeElement.addEventListener('mousedown', handleNodeDrag.bind(null, node));
                 }
-                if (node.type === 'end-node') {
+                if (node.type === EdgeType.EndNode) {
                     nodeElement.classList.add('end-node');
                     nodeElement.addEventListener('mousedown', handleNodeDrag.bind(null, node));
                 }
@@ -101,20 +109,20 @@
             return;
         const [newRow, newCol] = newSpecialNode.id.split('-').map(Number);
         const newNode = grid.getNode(newRow, newCol);
-        if (!newNode || newNode.type !== 'default')
+        if (!newNode || newNode.type !== EdgeType.Default)
             return;
         const previousNodeElement = document.getElementById(`${draggingNode.row}-${draggingNode.col}`);
         if (previousNodeElement) {
             previousNodeElement.classList.remove(draggingNode.type.toLowerCase());
         }
         let draggingType = draggingNode.type;
-        if (draggingType === 'start-node') {
+        if (draggingType === EdgeType.StartNode) {
             grid.setStartNode(newRow, newCol);
         }
-        else if (draggingType === 'end-node') {
+        else if (draggingType === EdgeType.EndNode) {
             grid.setEndNode(newRow, newCol);
         }
-        draggingNode.type = 'default';
+        draggingNode.type = EdgeType.Default;
         draggingNode = newNode;
         draggingNode.type = draggingType;
         newSpecialNode.classList.add(draggingType);
