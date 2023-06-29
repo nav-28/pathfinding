@@ -1,5 +1,5 @@
-import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 export default {
   input: 'src/main.ts',
@@ -7,5 +7,8 @@ export default {
     file: 'dist/bundle.js',
     format: 'iife',
   },
-  plugins: [typescript(), commonjs()],
+  plugins: [
+    nodeResolve(),
+    typescript(),
+  ],
 };

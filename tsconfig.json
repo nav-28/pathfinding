@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
+    "strict": true,
     "target": "es6",
-    "outDir": "dist"
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "module": "esnext"
   },
   "include": [
     "src/main.ts"

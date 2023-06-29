@@ -7,5 +7,6 @@ export enum EdgeType {
 }
 
 export class Edge {
+    public gVal: number = 0;
     constructor(public row: number, public col: number, public type: EdgeType, public element: HTMLTableCellElement) {}
 }
