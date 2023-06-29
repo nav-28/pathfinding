@@ -3,6 +3,8 @@
 *.log
 tmp/
 
+public/*.js
+
 *.tern-port
 node_modules/
 npm-debug.log*

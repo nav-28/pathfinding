@@ -2,7 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "target": "es6",
-    "outDir": "dist",
+    "outDir": "public",
     "moduleResolution": "node",
     "module": "esnext"
   },
