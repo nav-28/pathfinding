@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  heap-js:
-    specifier: ^2.3.0
-    version: 2.3.0
-
 devDependencies:
   '@rollup/plugin-node-resolve':
     specifier: ^15.1.0
@@ -107,11 +102,6 @@ packages:
     dependencies:
       function-bind: 1.1.1
     dev: true
-
-  /heap-js@2.3.0:
-    resolution: {integrity: sha512-E5303mzwQ+4j/n2J0rDvEPBN7GKjhis10oHiYOgjxsmxYgqG++hz9NyLLOXttzH8as/DyiBHYpUrJTZWYaMo8Q==}
-    engines: {node: '>=10.0.0'}
-    dev: false
 
   /is-builtin-module@3.2.1:
     resolution: {integrity: sha512-BSLE3HnV2syZ0FK0iMA/yUGplUeMmNz4AW5fnTunbCIqZi4vG3WjJT9FHMy5D69xmAYBHXQhJdALdpwVxV501A==}

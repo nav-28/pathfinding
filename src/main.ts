@@ -6,7 +6,8 @@ function updateGridSize(): void {
 }
 
 function handleDebugButtonClick(): void {
-  dijkstra(grid.getStartNode(), grid.getEndNode());
+  const result = dijkstra(grid);
+  console.log(result.path);
 }
 
 var grid = new Grid(window.innerHeight / (25 * 2), window.innerWidth / 25);
