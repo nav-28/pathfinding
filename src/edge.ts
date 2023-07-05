@@ -1,4 +1,5 @@
 
+// this enum corresponds to the class name defined in styles.css
 export enum EdgeType {
     StartNode = 'start-node',
     EndNode = 'end-node',

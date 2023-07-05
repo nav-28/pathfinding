@@ -6,6 +6,8 @@ export class Grid {
     private startNode!: number[];
     private endNode!: number[];
     private gridAnimated: boolean = false;
+    private visitedNodes: Edge[] = [];
+    private pathNodes: Edge[] = [];
 
     private draggingNode: Edge | undefined;
     private draggingType!: EdgeType;
@@ -80,17 +82,39 @@ export class Grid {
     animateNodes(): void {
         this.gridAnimated = true;
         const result = dijkstra(this);
-        result.expandedNodes.forEach((node, index) => {
+        this.visitedNodes = result.expandedNodes;
+        this.pathNodes = result.path;
+        this.visitedNodes.forEach((node, index) => {
             setTimeout(() => {
                 node.element.classList.add(EdgeType.Visited);
             }, index * 50);
         })
 
-        result.path.forEach((node, index) => {
+        this.pathNodes.forEach((node, index) => {
             setTimeout(() => {
                 node.element.classList.remove(EdgeType.Visited);
                 node.element.classList.add(EdgeType.Path);
             }, (result.expandedNodes.length + index) * 50);
+        });
+    }
+
+    showPath(): void {
+        this.visitedNodes.forEach((node) => {
+            node.element.classList.remove(EdgeType.Visited);
+        });
+        this.pathNodes.forEach((node) => {
+            node.element.classList.remove(EdgeType.Path);
+        });
+
+        const result = dijkstra(this);
+        this.visitedNodes = result.expandedNodes;
+        this.pathNodes = result.path;
+        result.expandedNodes.forEach((node) => {
+            node.element.classList.add(EdgeType.Visited);
+        });
+        result.path.forEach((node) => {
+            node.element.classList.remove(EdgeType.Visited);
+            node.element.classList.add(EdgeType.Path);
         });
     }
 
@@ -125,6 +149,9 @@ export class Grid {
         this.draggingNode.type = this.draggingType
 
         newSpecialNode.className = this.draggingType;
+        if (this.gridAnimated) {
+            this.showPath();
+        }
     }
 
     handleMouseUp(): void {
