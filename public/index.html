@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Pathfinding Algorithm Simulator</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
-  </head>
-  <body>
+</head>
+
+<body>
+    <div class="navbar">
+        <button id="viz-button">Visualize</button>
+        <div class="speed-menu">
+            <label for="speed-select">Animation Speed:</label>
+            <select id="speed-select">
+                <option value="fast">Fast</option>
+                <option value="average" selected>Average</option>
+                <option value="slow">Slow</option>
+            </select>
+        </div>
+    </div>
+
     <div id="container"> </div>
     <script src="bundle.js"></script>
-      
-  </body>
-</html>
 
+</body>
+
+</html>

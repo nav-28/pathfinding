@@ -8,19 +8,21 @@ export class Grid {
     private gridAnimated: boolean = false;
     private visitedNodes: Node[] = [];
     private pathNodes: Node[] = [];
-
+    private animatationSpeed: number = 50;
     private draggingNode: Node | undefined;
     private draggingType!: NodeType;
 
+    public animationRunning: boolean = false;
+
     constructor(public rows: number, public cols: number) {
-        this.calculateSpecialNode();
+        this.calculateSpecialNodesPosition();
         this.handleNodeDrag = this.handleNodeDrag.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleMouseUp = this.handleMouseUp.bind(this);
         this.initialize(rows, cols);
     }
 
-    calculateSpecialNode() {
+    calculateSpecialNodesPosition() {
         const startNodeCol = Math.round(this.cols * 0.25);
         const endNodeCol = Math.round(this.cols * 0.72);
         const nodeRow = Math.round(this.rows / 2);
@@ -32,8 +34,9 @@ export class Grid {
         this.rows = rows;
         this.cols = cols;
         this.nodes = [];
+        // recalculate special nodes if window is smaller
         if (this.startNode[0] > rows || this.startNode[1] > cols || this.endNode[0] > rows || this.endNode[1] > cols) {
-            this.calculateSpecialNode();
+            this.calculateSpecialNodesPosition();
         }
         const container = document.getElementById('container');
         if (!container) return;
@@ -79,23 +82,39 @@ export class Grid {
         }
     }
 
+    clearNodes(): void {
+        this.visitedNodes.forEach((node) => {
+            node.element.classList.remove(NodeType.Visited);
+        });
+        this.pathNodes.forEach((node) => {
+            node.element.classList.remove(NodeType.Path);
+        });
+    }
+
     animateNodes(): void {
+        this.clearNodes();
         this.gridAnimated = true;
+        this.animationRunning = true;
         const result = dijkstra(this);
         this.visitedNodes = result.expandedNodes;
         this.pathNodes = result.path;
         this.visitedNodes.forEach((node, index) => {
             setTimeout(() => {
                 node.element.classList.add(NodeType.Visited);
-            }, index * 50);
+            }, index * this.animatationSpeed);
+
         })
 
         this.pathNodes.forEach((node, index) => {
             setTimeout(() => {
                 node.element.classList.remove(NodeType.Visited);
                 node.element.classList.add(NodeType.Path);
-            }, (result.expandedNodes.length + index) * 50);
+                if (index == this.pathNodes.length - 1) {
+                    this.animationRunning = false;
+                }
+            }, (result.expandedNodes.length + index) * this.animatationSpeed);
         });
+
     }
 
     showPath(): void {
@@ -120,6 +139,9 @@ export class Grid {
 
 
     handleNodeDrag(node: Node, _: MouseEvent): void {
+        if (this.animationRunning) {
+            return;
+        }
         this.draggingNode = node;
         document.addEventListener('mousemove', this.handleMouseMove);
         document.addEventListener('mouseup', this.handleMouseUp);
@@ -222,6 +244,10 @@ export class Grid {
 
     getEndNode(): Node {
         return this.nodes[this.endNode[0]][this.endNode[1]];
+    }
+
+    setAnimationSpeed(speed: number): void {
+        this.animatationSpeed = speed;
     }
 
 }
