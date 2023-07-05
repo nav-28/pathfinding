@@ -1,16 +1,16 @@
-import { Edge, EdgeType } from './edge';
+import { Node, NodeType } from './edge';
 import { dijkstra } from './algorithms';
 
 export class Grid {
-    private nodes: Edge[][] = [];
+    private nodes: Node[][] = [];
     private startNode!: number[];
     private endNode!: number[];
     private gridAnimated: boolean = false;
-    private visitedNodes: Edge[] = [];
-    private pathNodes: Edge[] = [];
+    private visitedNodes: Node[] = [];
+    private pathNodes: Node[] = [];
 
-    private draggingNode: Edge | undefined;
-    private draggingType!: EdgeType;
+    private draggingNode: Node | undefined;
+    private draggingType!: NodeType;
 
     constructor(public rows: number, public cols: number) {
         this.calculateSpecialNode();
@@ -54,10 +54,10 @@ export class Grid {
             for (let col = 0; col < this.cols; col++) {
                 const nodeElement = document.createElement('td');
                 nodeElement.id = `${row}-${col}`;
-                nodeElement.className = EdgeType.Default;
+                nodeElement.className = NodeType.Default;
                 if (row == this.startNode[0] && col == this.startNode[1]) {
-                    nodeElement.className = EdgeType.StartNode;
-                    this.nodes[row][col] = new Edge(row, col, EdgeType.StartNode, nodeElement);
+                    nodeElement.className = NodeType.StartNode;
+                    this.nodes[row][col] = new Node(row, col, NodeType.StartNode, nodeElement);
                     this.startNode = [row, col];
                     tableRow.appendChild(nodeElement);
                     nodeElement.addEventListener('mousedown', this.handleNodeDrag.bind(null, this.nodes[row][col]));
@@ -65,14 +65,14 @@ export class Grid {
                 }
 
                 if (row == this.endNode[0] && col == this.endNode[1]) {
-                    nodeElement.className = EdgeType.EndNode;
-                    this.nodes[row][col] = new Edge(row, col, EdgeType.EndNode, nodeElement);
+                    nodeElement.className = NodeType.EndNode;
+                    this.nodes[row][col] = new Node(row, col, NodeType.EndNode, nodeElement);
                     this.endNode = [row, col];
                     tableRow.appendChild(nodeElement);
                     nodeElement.addEventListener('mousedown', this.handleNodeDrag.bind(null, this.nodes[row][col]));
                     continue;
                 }
-                this.nodes[row][col] = new Edge(row, col, EdgeType.Default, nodeElement);
+                this.nodes[row][col] = new Node(row, col, NodeType.Default, nodeElement);
                 tableRow.appendChild(nodeElement);
             }
             boardBody.appendChild(tableRow);
@@ -86,40 +86,40 @@ export class Grid {
         this.pathNodes = result.path;
         this.visitedNodes.forEach((node, index) => {
             setTimeout(() => {
-                node.element.classList.add(EdgeType.Visited);
+                node.element.classList.add(NodeType.Visited);
             }, index * 50);
         })
 
         this.pathNodes.forEach((node, index) => {
             setTimeout(() => {
-                node.element.classList.remove(EdgeType.Visited);
-                node.element.classList.add(EdgeType.Path);
+                node.element.classList.remove(NodeType.Visited);
+                node.element.classList.add(NodeType.Path);
             }, (result.expandedNodes.length + index) * 50);
         });
     }
 
     showPath(): void {
         this.visitedNodes.forEach((node) => {
-            node.element.classList.remove(EdgeType.Visited);
+            node.element.classList.remove(NodeType.Visited);
         });
         this.pathNodes.forEach((node) => {
-            node.element.classList.remove(EdgeType.Path);
+            node.element.classList.remove(NodeType.Path);
         });
 
         const result = dijkstra(this);
         this.visitedNodes = result.expandedNodes;
         this.pathNodes = result.path;
         result.expandedNodes.forEach((node) => {
-            node.element.classList.add(EdgeType.Visited);
+            node.element.classList.add(NodeType.Visited);
         });
         result.path.forEach((node) => {
-            node.element.classList.remove(EdgeType.Visited);
-            node.element.classList.add(EdgeType.Path);
+            node.element.classList.remove(NodeType.Visited);
+            node.element.classList.add(NodeType.Path);
         });
     }
 
 
-    handleNodeDrag(node: Edge, _: MouseEvent): void {
+    handleNodeDrag(node: Node, _: MouseEvent): void {
         this.draggingNode = node;
         document.addEventListener('mousemove', this.handleMouseMove);
         document.addEventListener('mouseup', this.handleMouseUp);
@@ -129,22 +129,22 @@ export class Grid {
         if (!this.draggingNode) return;
 
         const newSpecialNode = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
-        if (!newSpecialNode || !newSpecialNode.classList.contains(EdgeType.Default)) return;
+        if (!newSpecialNode || !newSpecialNode.classList.contains(NodeType.Default)) return;
 
         const [newRow, newCol] = newSpecialNode.id.split('-').map(Number);
         const newNode = this.getNode(newRow, newCol);
-        if (!newNode || newNode.type !== EdgeType.Default) return;
+        if (!newNode || newNode.type !== NodeType.Default) return;
 
         const previousNodeElement = this.draggingNode.element;
-        previousNodeElement.className = EdgeType.Default;
+        previousNodeElement.className = NodeType.Default;
 
         this.draggingType = this.draggingNode.type;
-        if (this.draggingType === EdgeType.StartNode) {
+        if (this.draggingType === NodeType.StartNode) {
             this.setStartNode(newRow, newCol);
-        } else if (this.draggingType === EdgeType.EndNode) {
+        } else if (this.draggingType === NodeType.EndNode) {
             this.setEndNode(newRow, newCol);
         }
-        this.draggingNode.type = EdgeType.Default
+        this.draggingNode.type = NodeType.Default
         this.draggingNode = newNode;
         this.draggingNode.type = this.draggingType
 
@@ -186,7 +186,7 @@ export class Grid {
         return true;
     }
 
-    successors(node: Edge): Edge[] {
+    successors(node: Node): Node[] {
         const children = [];
         for (let i = -1; i < 2; i++) {
             for (let j = -1; j < 2; j++) {
@@ -205,7 +205,7 @@ export class Grid {
     }
 
 
-    getNode(row: number, col: number): Edge | undefined {
+    getNode(row: number, col: number): Node | undefined {
         return this.nodes[row] && this.nodes[row][col];
     }
 
@@ -216,11 +216,11 @@ export class Grid {
     setEndNode(row: number, col: number) {
         this.endNode = [row, col];
     }
-    getStartNode(): Edge {
+    getStartNode(): Node {
         return this.nodes[this.startNode[0]][this.startNode[1]];
     }
 
-    getEndNode(): Edge {
+    getEndNode(): Node {
         return this.nodes[this.endNode[0]][this.endNode[1]];
     }
 

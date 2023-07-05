@@ -1,9 +1,9 @@
-import { Edge } from './edge';
+import { Node } from './edge';
 import { Grid } from './grid';
 
 export interface SearchResult {
-    expandedNodes: Edge[];
-    path: Edge[];
+    expandedNodes: Node[];
+    path: Node[];
 }
 
 
@@ -11,10 +11,10 @@ export function dijkstra(grid: Grid): SearchResult {
     const startNode = grid.getStartNode();
     const endNode = grid.getEndNode();
 
-    const queue: Edge[] = [];
-    const visited: Set<Edge> = new Set();
-    const previous: Map<Edge, Edge | undefined> = new Map();
-    const distance: Map<Edge, number> = new Map();
+    const queue: Node[] = [];
+    const visited: Set<Node> = new Set();
+    const previous: Map<Node, Node | undefined> = new Map();
+    const distance: Map<Node, number> = new Map();
 
     distance.set(startNode, 0);
     queue.push(startNode);
@@ -40,8 +40,8 @@ export function dijkstra(grid: Grid): SearchResult {
 
     const expandedNodes = Array.from(visited);
 
-    const path: Edge[] = [];
-    let currentNode: Edge | undefined = endNode;
+    const path: Node[] = [];
+    let currentNode: Node | undefined = endNode;
     while (currentNode !== undefined) {
         path.unshift(currentNode);
         currentNode = previous.get(currentNode);
