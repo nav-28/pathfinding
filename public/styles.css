@@ -1,6 +1,14 @@
-.node {
-  width: 25px;
+:root {
+  --path-node-color: rgb(255, 254, 106);
+  --visited-node-color: rgba(0, 190, 218, 0.75);
+}
+
+td {
   height: 25px;
+  width: 25px;
+}
+
+.basic-node {
   background-color: #eee;
   border: 1px solid #ddd;
 }
@@ -36,6 +44,22 @@ animation-fill-mode: forwards;
 animation-play-state: running;
 }
 
+.visited-node {
+  animation-name: rippleEffect;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+}
+
+.path-node {
+  background-color: var(--path-node-color);
+  animation-name: pathAnimation;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
 
 
 @keyframes specialNodes {
@@ -54,3 +78,29 @@ animation-play-state: running;
 
 
 
+@keyframes rippleEffect {
+  0% {
+    transform: scale(.3);
+    background-color: var(--path-node-color);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1.0);
+    background-color: var(--visited-node-color);
+  }
+}
+
+@keyframes pathAnimation {
+  0% {
+    transform: scale(.3);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1.0);
+
+  }
+}

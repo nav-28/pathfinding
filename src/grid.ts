@@ -1,34 +1,49 @@
 import { Edge, EdgeType } from './edge';
+import { dijkstra } from './algorithms';
 
 export class Grid {
     private nodes: Edge[][] = [];
     private startNode!: number[];
     private endNode!: number[];
+    private gridAnimated: boolean = false;
 
     private draggingNode: Edge | undefined;
     private draggingType!: EdgeType;
 
     constructor(public rows: number, public cols: number) {
+        this.calculateSpecialNode();
+        this.handleNodeDrag = this.handleNodeDrag.bind(this);
+        this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleMouseUp = this.handleMouseUp.bind(this);
         this.initialize(rows, cols);
+    }
+
+    calculateSpecialNode() {
+        const startNodeCol = Math.round(this.cols * 0.25);
+        const endNodeCol = Math.round(this.cols * 0.72);
+        const nodeRow = Math.round(this.rows / 2);
+        this.startNode = [nodeRow, startNodeCol];
+        this.endNode = [nodeRow, endNodeCol];
     }
 
     initialize(rows: number, cols: number) {
         this.rows = rows;
         this.cols = cols;
         this.nodes = [];
+        if (this.startNode[0] > rows || this.startNode[1] > cols || this.endNode[0] > rows || this.endNode[1] > cols) {
+            this.calculateSpecialNode();
+        }
         const container = document.getElementById('container');
         if (!container) return;
         const existingTable = container.querySelector('table');
         if (existingTable) {
             container.innerHTML = '';
         }
-        this.handleNodeDrag = this.handleNodeDrag.bind(this);
-        this.handleMouseMove = this.handleMouseMove.bind(this);
-        this.handleMouseUp = this.handleMouseUp.bind(this);
         const board = document.createElement('table');
         const boardBody = document.createElement('tbody');
         board.appendChild(boardBody);
         container.appendChild(board);
+
 
         for (let row = 0; row < this.rows; row++) {
             this.nodes[row] = [];
@@ -37,9 +52,9 @@ export class Grid {
             for (let col = 0; col < this.cols; col++) {
                 const nodeElement = document.createElement('td');
                 nodeElement.id = `${row}-${col}`;
-                nodeElement.className = 'node';
-                if (row == kStartNode[0] && col == kStartNode[1]) {
-                    nodeElement.classList.add(EdgeType.StartNode);
+                nodeElement.className = EdgeType.Default;
+                if (row == this.startNode[0] && col == this.startNode[1]) {
+                    nodeElement.className = EdgeType.StartNode;
                     this.nodes[row][col] = new Edge(row, col, EdgeType.StartNode, nodeElement);
                     this.startNode = [row, col];
                     tableRow.appendChild(nodeElement);
@@ -47,8 +62,8 @@ export class Grid {
                     continue;
                 }
 
-                if (row == kEndNode[0] && col == kEndNode[1]) {
-                    nodeElement.classList.add(EdgeType.EndNode);
+                if (row == this.endNode[0] && col == this.endNode[1]) {
+                    nodeElement.className = EdgeType.EndNode;
                     this.nodes[row][col] = new Edge(row, col, EdgeType.EndNode, nodeElement);
                     this.endNode = [row, col];
                     tableRow.appendChild(nodeElement);
@@ -62,6 +77,23 @@ export class Grid {
         }
     }
 
+    animateNodes(): void {
+        this.gridAnimated = true;
+        const result = dijkstra(this);
+        result.expandedNodes.forEach((node, index) => {
+            setTimeout(() => {
+                node.element.classList.add(EdgeType.Visited);
+            }, index * 50);
+        })
+
+        result.path.forEach((node, index) => {
+            setTimeout(() => {
+                node.element.classList.remove(EdgeType.Visited);
+                node.element.classList.add(EdgeType.Path);
+            }, (result.expandedNodes.length + index) * 50);
+        });
+    }
+
 
     handleNodeDrag(node: Edge, _: MouseEvent): void {
         this.draggingNode = node;
@@ -73,14 +105,14 @@ export class Grid {
         if (!this.draggingNode) return;
 
         const newSpecialNode = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
-        if (!newSpecialNode || !newSpecialNode.classList.contains('node')) return;
+        if (!newSpecialNode || !newSpecialNode.classList.contains(EdgeType.Default)) return;
 
         const [newRow, newCol] = newSpecialNode.id.split('-').map(Number);
         const newNode = this.getNode(newRow, newCol);
         if (!newNode || newNode.type !== EdgeType.Default) return;
 
         const previousNodeElement = this.draggingNode.element;
-        previousNodeElement.classList.remove(this.draggingNode.type);
+        previousNodeElement.className = EdgeType.Default;
 
         this.draggingType = this.draggingNode.type;
         if (this.draggingType === EdgeType.StartNode) {
@@ -92,7 +124,7 @@ export class Grid {
         this.draggingNode = newNode;
         this.draggingNode.type = this.draggingType
 
-        newSpecialNode.classList.add(this.draggingType);
+        newSpecialNode.className = this.draggingType;
     }
 
     handleMouseUp(): void {
@@ -167,7 +199,3 @@ export class Grid {
 
 }
 
-
-
-const kStartNode = [5, 3]
-const kEndNode = [9, 9]

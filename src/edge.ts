@@ -2,8 +2,10 @@
 export enum EdgeType {
     StartNode = 'start-node',
     EndNode = 'end-node',
-    Wall = 'wall',
-    Default = 'default',
+    Wall = 'wall-node',
+    Default = 'basic-node',
+    Visited = 'visited-node',
+    Path = 'path-node'
 }
 
 export class Edge {
