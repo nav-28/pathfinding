@@ -4,6 +4,7 @@
 tmp/
 
 public/*.js
+public/*.js*
 
 *.tern-port
 node_modules/
