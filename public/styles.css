@@ -13,6 +13,20 @@
   --background-color: #102770;
 }
 
+body {
+  font-family: "Roboto", sans-serif;
+  background-image: url(assets/background.svg);
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background-position: center;
+  background-repeat: repeat;
+  background-size: 10%;
+  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 50px;
+}
+
 .logo {
   position: fixed;
   top: 50px;
@@ -34,19 +48,6 @@
   width: auto;
   display: block;
   transition: all 200ms linear;
-}
-
-body {
-  background-image: url(assets/background.svg);
-  overflow-x: hidden;
-  overflow-y: hidden;
-  background-position: center;
-  background-repeat: repeat;
-  background-size: 10%;
-  flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  justify-content: center;
-  padding-top: 50px;
 }
 
 .navbar {
@@ -231,6 +232,11 @@ td {
   pointer-events: none;
   transform: translateY(20px);
   transition: all 200ms linear;
+}
+
+.section-dropdown .algo-option {
+  color: grey;
+  font-size: 13px;
 }
 
 .dropdown:checked ~ .section-dropdown {
