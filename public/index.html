@@ -15,26 +15,31 @@
         <button class="toggle-mode" id="toggle-mode"></button>
     </div>
     <div class="navbar">
-        <div class="sec-center">
-            <input class="dropdown" type="checkbox" id="algo" name="algo" />
-            <label class="dropdown-label" for="algo">Algorithm: &nbsp<span id="algo-selection" class="speed-selection">
-                    Dijkstra</span>
-                <div class="icon-container">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 1024 1024">
-                        <path fill="currentColor"
-                            d="M104.704 685.248a64 64 0 0 0 90.496 0l316.8-316.8l316.8 316.8a64 64 0 0 0 90.496-90.496L557.248 232.704a64 64 0 0 0-90.496 0L104.704 594.752a64 64 0 0 0 0 90.496z" />
-                    </svg>
-                </div>
-            </label>
 
-            <div class="section-dropdown">
-                <div class="algo-option">Unweighted</div>
-                <a href="#" onclick="bundle.changeSpeed('Fast')">Dijkstra</a>
-                <div class="algo-option">Weighted</div>
-                <a href="#" onclick="bundle.changeSpeed('Average')">A*</a>
-                <a href="#" onclick="bundle.changeSpeed('Slow')">Bi-Bs</a>
-            </div>
+
+        <div class="dropdown-button">
+            <a class="dropdown-trigger" for="algo">Algorithm: &nbsp<span id="algo-selection" class="speed-selection">
+                    Dijkstra</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor" fill-rule="evenodd"
+                        d="M7 9a1 1 0 0 0-.707 1.707l5 5a1 1 0 0 0 1.414 0l5-5A1 1 0 0 0 17 9H7Z" clip-rule="evenodd" />
+                </svg>
+            </a>
+            <ul class="dropdown-menu">
+                <div class=dropdown-desc>Unweighted</div>
+                <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
+                    <a href="#">Dijkstra</a>
+                </li>
+                <div class=dropdown-desc>Weighted</div>
+                <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
+                    <a href="#">A*</a>
+                </li>
+                <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Slow')">
+                    <a href="#">Bi-Bs</a>
+                </li>
+            </ul>
         </div>
+
 
         <button class="viz-button" id="viz-button" onclick="bundle.runAnimation()">Visualize</button>
 
@@ -49,6 +54,9 @@
             </a>
 
             <ul class="dropdown-menu">
+                <li class="dropdown-item" onclick="bundle.changeSpeed('No Animation')">
+                    <a href="#">No Animation</a>
+                </li>
                 <li class="dropdown-item" onclick="bundle.changeSpeed('Fast')">
                     <a href="#">Fast</a>
                 </li>

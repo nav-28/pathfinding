@@ -29,8 +29,17 @@
   color: #fff;
 }
 
+ul,
+li {
+  list-style: none;
+  -webkit-padding-start: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
 .toggle-mode {
-  content: "";
   top: 1px;
   left: 1px;
   overflow: hidden;
@@ -41,7 +50,6 @@
   height: 44px;
   background-color: var(--background-color);
   background-image: var(--theme-icon);
-  background-size: 20px 20px;
   background-repeat: no-repeat;
   background-position: center;
   border: none;
@@ -100,7 +108,7 @@ body {
   line-height: 2;
   transition: all 200ms linear;
   border-radius: 4px;
-  padding: 20px;
+  padding: 15px 30px;
   letter-spacing: 1px;
   display: inline-block;
   -webkit-align-items: center;
@@ -149,7 +157,7 @@ td {
 }
 
 .basic-node {
-  border: 1px solid #ddd;
+  border: 1px solid #808080;
 }
 .start-node {
   filter: invert(var(--invert-fill));
@@ -200,144 +208,6 @@ td {
   animation-fill-mode: forwards;
 }
 
-.sec-center {
-  position: relative;
-  text-align: center;
-  padding: 10px;
-  z-index: 200;
-}
-
-[type="checkbox"]:checked,
-[type="checkbox"]:not(:checked) {
-  position: absolute;
-  left: -9999px;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.dropdown:checked + label,
-.dropdown:not(:checked) + label {
-  position: relative;
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 2;
-  transition: all 200ms linear;
-  border-radius: 4px;
-  padding: 10px;
-  display: flex;
-  letter-spacing: 1px;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
-  justify-content: center;
-  -ms-flex-pack: center;
-  text-align: center;
-  border: none;
-  background-color: var(--background-color);
-  cursor: pointer;
-  color: var(--text-color);
-  box-shadow: 0 10px 30px -10px var(--background-color);
-}
-
-.dropdown:checked + label:before,
-.dropdown:not(:checked) + label:before {
-  position: fixed;
-  top: 0;
-  left: 0;
-  content: "";
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  cursor: auto;
-  pointer-events: none;
-}
-
-.speed-selection {
-  color: var(--text-emph);
-}
-
-.dropdown:checked + label .icon-container {
-  top: -100px;
-  margin-left: 10px;
-  transform: rotate(180deg);
-  transition: transform 200ms linear;
-}
-
-.dropdown:not(:checked) + label .icon-container {
-  margin-left: 10px;
-  transition: transform 200ms linear;
-}
-
-.section-dropdown {
-  position: absolute;
-  padding: 5px;
-  background-color: #fff;
-  top: 70px;
-  left: 0;
-  width: 100%;
-  border-radius: 4px;
-  display: block;
-  box-shadow: 0 14px 35px 0 #000;
-  z-index: 2;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(20px);
-  transition: all 200ms linear;
-}
-
-.section-dropdown .algo-option {
-  color: grey;
-  font-size: 13px;
-}
-
-.dropdown:checked ~ .section-dropdown {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-.section-dropdown a {
-  position: relative;
-  color: #000;
-  transition: all 200ms linear;
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  font-size: 15px;
-  border-radius: 2px;
-  padding: 10px;
-  margin: 2px 0;
-  text-align: left;
-  text-decoration: none;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
-  justify-content: space-between;
-  -ms-flex-pack: distribute;
-}
-
-.section-dropdown a:hover {
-  color: var(--text-color);
-  background-color: var(--background-color);
-}
-
-ul,
-li {
-  list-style: none;
-  -webkit-padding-start: 0;
-}
-
-a {
-  text-decoration: none;
-}
-
 .dropdown-button {
   position: relative;
   font-family: "Roboto", sans-serif;
@@ -348,6 +218,7 @@ a {
   border-radius: 4px;
   padding: 10px;
   margin-left: 10px;
+  margin-right: 10px;
   display: flex;
   letter-spacing: 1px;
   -webkit-align-items: center;
@@ -402,6 +273,7 @@ a {
   transition: opacity 200ms linear;
   width: 100%;
 }
+
 .dropdown-menu a {
   color: #000;
 }
@@ -418,6 +290,14 @@ a {
   cursor: pointer;
   padding: 0.5em;
   text-align: center;
+}
+
+.dropdown-desc {
+  color: #808080;
+}
+
+.drop-algo {
+  text-align: left;
 }
 
 .footer {

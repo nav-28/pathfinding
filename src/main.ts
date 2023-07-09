@@ -29,6 +29,8 @@ export function changeSpeed(speed: string): void {
     grid.setAnimationSpeed(50);
   } else if (speed == "Fast") {
     grid.setAnimationSpeed(20);
+  } else if (speed == "No Animation") {
+    grid.setAnimationSpeed(0);
   }
 }
 
