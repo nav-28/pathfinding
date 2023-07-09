@@ -1,7 +1,7 @@
 // this enum corresponds to the class name defined in styles.css
 export enum NodeType {
-  StartNode = "start-node",
-  EndNode = "end-node",
+  StartNode = "start-node special-node",
+  EndNode = "end-node special-node",
   Wall = "wall-node",
   Default = "basic-node",
   Visited = "visited-node",

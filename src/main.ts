@@ -40,4 +40,4 @@ function updateGridSize(): void {
   }
 }
 
-window.addEventListener("resize", updateGridSize);
+//window.addEventListener("resize", updateGridSize);
