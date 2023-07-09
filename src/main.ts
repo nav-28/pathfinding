@@ -2,13 +2,19 @@ import { Grid } from "./grid";
 
 var grid = new Grid(window.innerHeight / (25 * 2), window.innerWidth / 25);
 
-// viz button
-const playButton = document.getElementById("viz-button") as HTMLButtonElement;
-playButton.addEventListener("click", () => {
+export function runAnimation(): void {
   if (!grid.animationRunning) {
     grid.animateNodes();
   }
+}
+
+const toggleButton = document.getElementById('toggle-mode') as HTMLButtonElement;
+const rootElement = document.documentElement;
+
+toggleButton.addEventListener('click', function () {
+  rootElement.classList.toggle('dark-mode');
 });
+
 
 // speed selector
 export function changeSpeed(speed: string): void {
