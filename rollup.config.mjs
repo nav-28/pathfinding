@@ -1,14 +1,13 @@
-import typescript from '@rollup/plugin-typescript';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
+import typescript from "@rollup/plugin-typescript";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 
 export default {
-  input: 'src/main.ts',
+  input: "src/main.ts",
   output: {
-    file: 'public/bundle.js',
-    format: 'iife',
+    name: "bundle",
+    file: "public/bundle.js",
+    format: "iife",
+    sourcemap: true,
   },
-  plugins: [
-    nodeResolve(),
-    typescript(),
-  ],
+  plugins: [nodeResolve(), typescript()],
 };

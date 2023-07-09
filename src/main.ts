@@ -1,34 +1,30 @@
-import { Grid } from './grid';
-
-
+import { Grid } from "./grid";
 
 var grid = new Grid(window.innerHeight / (25 * 2), window.innerWidth / 25);
 
-
-
 // viz button
-const playButton = document.getElementById('viz-button') as HTMLButtonElement;
-playButton.addEventListener('click', () => {
+const playButton = document.getElementById("viz-button") as HTMLButtonElement;
+playButton.addEventListener("click", () => {
   if (!grid.animationRunning) {
-    grid.animateNodes()
+    grid.animateNodes();
   }
 });
 
-
 // speed selector
-const speedSelect = document.getElementById('speed-select') as HTMLSelectElement;
-speedSelect!.addEventListener('change', () => {
-  const selectedSpeed = speedSelect!.value;
-  if (selectedSpeed == 'slow') {
+export function changeSpeed(speed: string): void {
+  const speedText = document.getElementById("speed-selection");
+  if (!speedText) {
+    return;
+  }
+  speedText.textContent = speed;
+  if (speed == "Slow") {
     grid.setAnimationSpeed(100);
-  }
-  else if (selectedSpeed == 'average') {
+  } else if (speed == "Average") {
     grid.setAnimationSpeed(50);
-  }
-  else if (selectedSpeed == 'fast') {
+  } else if (speed == "Fast") {
     grid.setAnimationSpeed(20);
   }
-})
+}
 
 function updateGridSize(): void {
   if (!grid.animationRunning) {
@@ -36,4 +32,4 @@ function updateGridSize(): void {
   }
 }
 
-window.addEventListener('resize', updateGridSize);
+window.addEventListener("resize", updateGridSize);

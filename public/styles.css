@@ -1,55 +1,91 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   --path-node-color: rgb(255, 254, 106);
   --visited-node-color: rgba(0, 190, 218, 0.75);
+  --text-color: #ffeba7;
+  --background-color: #102770;
+}
+
+.logo {
+  position: fixed;
+  top: 50px;
+  left: 40px;
+  display: block;
+  z-index: 1100;
+  background-color: transparent;
+  border-radius: 0;
+  padding: 0;
+  transition: all 250ms linear;
+}
+
+.logo:hover {
+  background-color: transparent;
+}
+
+.logo svg {
+  height: 40px;
+  width: auto;
+  display: block;
+  transition: all 200ms linear;
+}
+
+body {
+  background-image: url(assets/background.svg);
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background-position: center;
+  background-repeat: repeat;
+  background-size: 10%;
+  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 50px;
 }
 
 .navbar {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
-button {
- appearance: none;
- background-color: transparent;
- border: 0.125em solid #1A1A1A;
- border-radius: 0.9375em;
- box-sizing: border-box;
- color: #3B3B3B;
- cursor: pointer;
- display: inline-block;
- font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
- font-size: 16px;
- font-weight: 600;
- line-height: normal;
- margin: 0;
- min-height: 3.75em;
- min-width: 0;
- outline: none;
- padding: 1em 2.3em;
- text-align: center;
- text-decoration: none;
- transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
- user-select: none;
- -webkit-user-select: none;
- touch-action: manipulation;
- will-change: transform;
+.viz-button {
+  position: relative;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 2;
+  transition: all 200ms linear;
+  border-radius: 4px;
+  padding: 20px;
+  letter-spacing: 1px;
+  display: inline-block;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  text-align: center;
+  border: none;
+  background-color: var(--background-color);
+  cursor: pointer;
+  color: var(--text-color);
+  box-shadow: 0 10px 30px -10px var(--background-color);
 }
 
-button:disabled {
- pointer-events: none;
- background-color: grey;
-}
-
-button:hover {
- color: #fff;
- background-color: #1A1A1A;
- box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
- transform: translateY(-2px);
-}
-
-button:active {
- box-shadow: none;
- transform: translateY(0);
+table {
+  padding: 5px;
+  display: block;
 }
 
 td {
@@ -62,35 +98,33 @@ td {
   border: 1px solid #ddd;
 }
 .start-node {
-background-image: url(assets/start.svg);
-background-position: center;
-background-repeat: no-repeat;
-background-size: contain;
-animation-name: specialNodes;
-animation-duration: 1.0s;
-animation-timing-function: ease-out;
-animation-delay: 0;
-animation-direction: alternate;
-animation-iteration-count: 1;
-animation-fill-mode: forwards;
-animation-play-state: running;
+  background-image: url(assets/start.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation-name: specialNodes;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 
-
-
-.end-node{
-background-image: url(assets/target.svg);
-background-position: center;
-background-repeat: no-repeat;
-background-size: contain;
-animation-name: specialNodes;
-animation-duration: 1.0s;
-animation-timing-function: ease-out;
-animation-delay: 0;
-animation-direction: alternate;
-animation-iteration-count: 1;
-animation-fill-mode: forwards;
-animation-play-state: running;
+.end-node {
+  background-image: url(assets/target.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  animation-name: specialNodes;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 
 .visited-node {
@@ -109,11 +143,132 @@ animation-play-state: running;
   animation-fill-mode: forwards;
 }
 
+.sec-center {
+  position: relative;
+  text-align: center;
+  padding: 10px;
+  z-index: 200;
+}
 
+[type="checkbox"]:checked,
+[type="checkbox"]:not(:checked) {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dropdown:checked + label,
+.dropdown:not(:checked) + label {
+  position: relative;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 2;
+  transition: all 200ms linear;
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  letter-spacing: 1px;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  text-align: center;
+  border: none;
+  background-color: var(--background-color);
+  cursor: pointer;
+  color: var(--text-color);
+  box-shadow: 0 10px 30px -10px var(--background-color);
+}
+
+.dropdown:checked + label:before,
+.dropdown:not(:checked) + label:before {
+  position: fixed;
+  top: 0;
+  left: 0;
+  content: "";
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  cursor: auto;
+  pointer-events: none;
+}
+
+.speed-selection {
+  color: #fff;
+}
+
+.dropdown:checked + label .icon-container {
+  top: -100px;
+  margin-left: 10px;
+  transform: rotate(180deg);
+  transition: transform 200ms linear;
+}
+
+.dropdown:not(:checked) + label .icon-container {
+  margin-left: 10px;
+  transition: transform 200ms linear;
+}
+
+.section-dropdown {
+  position: absolute;
+  padding: 5px;
+  background-color: #fff;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  border-radius: 4px;
+  display: block;
+  box-shadow: 0 14px 35px 0 #000;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: all 200ms linear;
+}
+
+.dropdown:checked ~ .section-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+a {
+  position: relative;
+  color: #000;
+  transition: all 200ms linear;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  border-radius: 2px;
+  padding: 10px;
+  margin: 2px 0;
+  text-align: left;
+  text-decoration: none;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  justify-content: space-between;
+  -ms-flex-pack: distribute;
+}
+
+a:hover {
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
 
 @keyframes specialNodes {
   0% {
-    transform: scale(.3);
+    transform: scale(0.3);
   }
 
   50% {
@@ -121,35 +276,32 @@ animation-play-state: running;
   }
 
   100% {
-    transform: scale(1.0);
+    transform: scale(1);
   }
 }
 
-
-
 @keyframes rippleEffect {
   0% {
-    transform: scale(.3);
+    transform: scale(0.3);
     background-color: var(--path-node-color);
   }
   50% {
     transform: scale(1.1);
   }
   100% {
-    transform: scale(1.0);
+    transform: scale(1);
     background-color: var(--visited-node-color);
   }
 }
 
 @keyframes pathAnimation {
   0% {
-    transform: scale(.3);
+    transform: scale(0.3);
   }
   50% {
     transform: scale(1.1);
   }
   100% {
-    transform: scale(1.0);
-
+    transform: scale(1);
   }
 }
