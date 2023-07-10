@@ -21,7 +21,10 @@ export class Grid {
     this.calculateSpecialNodesPosition();
     this.handleNodeDrag = this.handleNodeDrag.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handleTouchMove = this.handleTouchMove.bind(this);
+    this.handleTouchEnd = this.handleTouchEnd.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
+    this.handleDragEnd = this.handleDragEnd.bind(this);
     this.initialize(rows, cols);
   }
 
@@ -79,6 +82,10 @@ export class Grid {
             "mousedown",
             this.handleNodeDrag.bind(null, this.nodes[row][col]),
           );
+          nodeElement.addEventListener(
+            "touchstart",
+            this.handleNodeDrag.bind(null, this.nodes[row][col])
+          );
           continue;
         }
 
@@ -96,6 +103,7 @@ export class Grid {
             "mousedown",
             this.handleNodeDrag.bind(null, this.nodes[row][col]),
           );
+          nodeElement.addEventListener('touchstart', this.handleNodeDrag.bind(null, this.nodes[row][col]));
           continue;
         }
         this.nodes[row][col] = new Node(
@@ -172,14 +180,26 @@ export class Grid {
   }
 
 
-
-  handleNodeDrag(node: Node, _: MouseEvent): void {
+  handleNodeDrag(node: Node, event: MouseEvent | TouchEvent): void {
     if (this.animationRunning) {
       return;
     }
-    this.draggingNode = node;
-    document.addEventListener("mousemove", this.handleMouseMove);
-    document.addEventListener("mouseup", this.handleMouseUp);
+
+    if (event instanceof MouseEvent) {
+      // Mouse event handling
+      this.draggingNode = node;
+      document.addEventListener("mousemove", this.handleMouseMove);
+      document.addEventListener("mouseup", this.handleMouseUp);
+    } else if (event instanceof TouchEvent) {
+      // Touch event handling
+      const touch = event.touches[0];
+      this.draggingNode = node;
+      event.preventDefault();
+      document.addEventListener("touchmove", this.handleTouchMove, { passive: false });
+      document.addEventListener("touchend", this.handleTouchEnd);
+      document.addEventListener("touchcancel", this.handleTouchEnd);
+      this.handleTouchMove(event);
+    }
   }
 
   handleMouseMove(event: MouseEvent): void {
@@ -187,14 +207,37 @@ export class Grid {
 
     const newSpecialNode = document.elementFromPoint(
       event.clientX,
-      event.clientY,
+      event.clientY
     ) as HTMLElement;
+
+    this.handleSpecialNodeUpdate(newSpecialNode);
+  }
+
+  handleTouchMove(event: TouchEvent): void {
+    if (!this.draggingNode) return;
+
+    const touch = event.touches[0];
+    const newSpecialNode = document.elementFromPoint(
+      touch.clientX,
+      touch.clientY
+    ) as HTMLElement;
+
+    if (!newSpecialNode || !newSpecialNode.classList.contains(NodeType.Default)) return;
+
+    this.handleSpecialNodeUpdate(newSpecialNode);
+  }
+
+  handleSpecialNodeUpdate(newSpecialNode: HTMLElement | null): void {
     if (!newSpecialNode || !newSpecialNode.classList.contains(NodeType.Default))
       return;
 
     const [newRow, newCol] = newSpecialNode.id.split("-").map(Number);
     const newNode = this.getNode(newRow, newCol);
     if (!newNode || newNode.type !== NodeType.Default) return;
+
+    if (!this.draggingNode) {
+      return;
+    }
 
     const previousNodeElement = this.draggingNode.element;
     previousNodeElement.className = NodeType.Default;
@@ -219,22 +262,37 @@ export class Grid {
     document.removeEventListener("mousemove", this.handleMouseMove);
     document.removeEventListener("mouseup", this.handleMouseUp);
 
-    // add event listener to new special node
+    this.handleDragEnd();
+  }
+
+  handleTouchEnd(): void {
+    document.removeEventListener("touchmove", this.handleTouchMove);
+    document.removeEventListener("touchend", this.handleTouchEnd);
+    document.removeEventListener("touchcancel", this.handleTouchEnd);
+
+    this.handleDragEnd();
+  }
+
+  handleDragEnd(): void {
+    // Add event listener to new special node
     if (!this.draggingNode) return;
     const nodeElement = document.getElementById(
-      `${this.draggingNode.row}-${this.draggingNode.col}`,
+      `${this.draggingNode.row}-${this.draggingNode.col}`
     );
     if (nodeElement) {
       nodeElement.addEventListener(
         "mousedown",
         this.handleNodeDrag.bind(
           null,
-          this.nodes[this.draggingNode.row][this.draggingNode.col],
-        ),
+          this.nodes[this.draggingNode.row][this.draggingNode.col]
+        )
       );
+      nodeElement.addEventListener('touchstart', this.handleNodeDrag.bind(null, this.nodes[this.draggingNode.row][this.draggingNode.col]))
       this.draggingNode = undefined;
     }
   }
+
+
 
   cost(x: number, y: number): number {
     if (x == 0 || y == 0) {

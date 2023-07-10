@@ -72,12 +72,6 @@ header svg {
   transition: all 200ms linear;
 }
 
-@media (max-width: 700px) {
-  .header {
-    display: none;
-  }
-}
-
 header button {
   top: 1px;
   left: 1px;
@@ -361,6 +355,16 @@ td {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+@media (max-width: 700px) {
+  .header {
+    display: none;
+  }
+
+  .dropdown-button {
+    font-size: 11px;
+  }
 }
 
 @keyframes specialNodes {
