@@ -32,11 +32,22 @@ export function changeSpeed(speed: string): void {
   }
 }
 
-function updateGridSize(): void {
+// clear board
+const clearBoardButton = document.getElementById('clear-board') as HTMLButtonElement;
+clearBoardButton.addEventListener('click', () => {
   if (!grid.animationRunning) {
+    grid.calculateSpecialNodesPosition();
     grid.initialize(window.innerHeight / (25 * 2), window.innerWidth / 25);
   }
-}
+});
+
+// clear path
+const pathButton = document.getElementById('clear-path') as HTMLButtonElement;
+pathButton.addEventListener('click', () => {
+  if (!grid.animationRunning) {
+    grid.clearPath();
+  }
+})
 
 //window.addEventListener("resize", updateGridSize);
 

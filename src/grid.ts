@@ -110,17 +110,22 @@ export class Grid {
     }
   }
 
-  clearNodes(): void {
-    this.visitedNodes.forEach((node) => {
-      node.element.classList.remove(NodeType.Visited);
-    });
-    this.pathNodes.forEach((node) => {
-      node.element.classList.remove(NodeType.Path);
-    });
+  clearPath(): void {
+    if (this.gridAnimated) {
+      this.visitedNodes.forEach((node) => {
+        node.element.classList.remove(NodeType.Visited);
+      });
+      this.pathNodes.forEach((node) => {
+        node.element.classList.remove(NodeType.Path);
+      });
+      this.visitedNodes = [];
+      this.pathNodes = [];
+      this.gridAnimated = false;
+    }
   }
 
   animateNodes(): void {
-    this.clearNodes();
+    this.clearPath();
     this.gridAnimated = true;
     this.animationRunning = true;
     const result = dijkstra(this);
@@ -165,6 +170,8 @@ export class Grid {
       node.element.classList.add(NodeType.Path);
     });
   }
+
+
 
   handleNodeDrag(node: Node, _: MouseEvent): void {
     if (this.animationRunning) {

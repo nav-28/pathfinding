@@ -10,6 +10,7 @@
   --path-node-color: rgb(255, 254, 106);
   --visited-node-color: rgba(0, 190, 218, 0.75);
   --text-color: #ffeba7;
+  --text-color-hover: #ffdf74;
   --text-emph: #fff;
   --background-color: #102770;
   --theme-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="%23ffeba7" d="M11.01 3.05C6.51 3.54 3 7.36 3 12a9 9 0 0 0 9 9c4.63 0 8.45-3.5 8.95-8c.09-.79-.78-1.42-1.54-.95A5.403 5.403 0 0 1 11.1 7.5c0-1.06.31-2.06.84-2.89c.45-.67-.04-1.63-.93-1.56z"%2F%3E%3C%2Fsvg%3E');
@@ -25,6 +26,7 @@
   --body-background-color: #1f2029;
   --background-color: #ffeba7;
   --text-color: #102770;
+  --text-color-hover: #16379d;
   --text-emph: #000;
   --theme-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="36" height="36" viewBox="0 0 36 36"%3E%3Cpath fill="%23102770" d="M18 6.42a1 1 0 0 0 1-1V1.91a1 1 0 0 0-2 0v3.51a1 1 0 0 0 1 1Z" class="clr-i-solid clr-i-solid-path-1"%2F%3E%3Cpath fill="%23102770" d="M18 29.58a1 1 0 0 0-1 1v3.51a1 1 0 0 0 2 0v-3.51a1 1 0 0 0-1-1Z" class="clr-i-solid clr-i-solid-path-2"%2F%3E%3Cpath fill="%23102770" d="M8.4 9.81A1 1 0 0 0 9.81 8.4L7.33 5.92a1 1 0 0 0-1.41 1.41Z" class="clr-i-solid clr-i-solid-path-3"%2F%3E%3Cpath fill="%23102770" d="M27.6 26.19a1 1 0 0 0-1.41 1.41l2.48 2.48a1 1 0 0 0 1.41-1.41Z" class="clr-i-solid clr-i-solid-path-4"%2F%3E%3Cpath fill="%23102770" d="M6.42 18a1 1 0 0 0-1-1H1.91a1 1 0 0 0 0 2h3.51a1 1 0 0 0 1-1Z" class="clr-i-solid clr-i-solid-path-5"%2F%3E%3Cpath fill="%23102770" d="M34.09 17h-3.51a1 1 0 0 0 0 2h3.51a1 1 0 0 0 0-2Z" class="clr-i-solid clr-i-solid-path-6"%2F%3E%3Cpath fill="%23102770" d="m8.4 26.19l-2.48 2.48a1 1 0 0 0 1.41 1.41l2.48-2.48a1 1 0 0 0-1.41-1.41Z" class="clr-i-solid clr-i-solid-path-7"%2F%3E%3Cpath fill="%23102770" d="m27.6 9.81l2.48-2.48a1 1 0 0 0-1.41-1.41L26.19 8.4a1 1 0 0 0 1.41 1.41Z" class="clr-i-solid clr-i-solid-path-8"%2F%3E%3Ccircle cx="18" cy="18" r="10" fill="%23102770" class="clr-i-solid clr-i-solid-path-9"%2F%3E%3Cpath fill="none" d="M0 0h36v36H0z"%2F%3E%3C%2Fsvg%3E');
   --invert-fill: 1;
@@ -101,7 +103,6 @@ header button {
 
 .viz-button {
   position: relative;
-  font-family: "Roboto", sans-serif;
   font-weight: 500;
   font-size: 20px;
   line-height: 2;
@@ -125,6 +126,33 @@ header button {
   cursor: pointer;
   color: var(--text-color);
   box-shadow: 0 10px 30px -10px var(--background-color);
+}
+
+.viz-button:hover {
+  transform: translateY(-0.1em);
+}
+
+.sub-nav {
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
+}
+
+.sub-nav button {
+  color: var(--background-color);
+  background-color: var(--text-color);
+  font-family: "Roboto", sans-serif;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.sub-nav button:hover {
+  background-color: var(--text-color-hover);
 }
 
 .guide ul {
