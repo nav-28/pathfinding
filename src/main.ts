@@ -8,13 +8,11 @@ export function runAnimation(): void {
   }
 }
 
-const toggleButton = document.getElementById('toggle-mode') as HTMLButtonElement;
-const rootElement = document.documentElement;
+const toggleButton = document.getElementById("toggle-mode") as HTMLButtonElement;
 
-toggleButton.addEventListener('click', function () {
-  rootElement.classList.toggle('dark-mode');
+toggleButton.addEventListener("click", function () {
+  document.documentElement.classList.toggle("dark-mode");
 });
-
 
 // speed selector
 export function changeSpeed(speed: string): void {
@@ -41,3 +39,21 @@ function updateGridSize(): void {
 }
 
 //window.addEventListener("resize", updateGridSize);
+
+
+// TODO:
+// Add basic buttons: clear board, clear path, clear walls
+// Add Tutorial.
+// Add More Algorithms
+// Add Heuristics
+// Add walls
+// Add weights
+//
+// (Maybe Mazes)
+//
+// Algorithms:
+// Uninformed Search
+// BFS, DFS, Dijkstra, Bi-Bs, IDDFS,
+// Informed Search uses heuristics
+// A*, IA*, Bi-A*, MM, Weighted A*, Weighted IDA*
+//
