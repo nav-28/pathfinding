@@ -33,6 +33,12 @@
   color: #fff;
 }
 
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
 ul,
 li {
   list-style: none;
@@ -44,22 +50,21 @@ a {
 }
 
 body {
+  position: relative;
   background-color: var(--body-background-color);
   font-family: "Roboto", sans-serif;
   background-image: url(assets/background.svg);
-  overflow-x: hidden;
-  overflow-y: hidden;
   background-position: center;
   background-repeat: repeat;
   background-size: 10%;
   flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   justify-content: center;
-  padding-top: 50px;
+  padding-top: 10px;
 }
 
 header {
-  margin: 10px;
+  margin: 2px 10px;
   display: flex;
   justify-content: space-between;
 }
@@ -83,6 +88,7 @@ header button {
   height: 44px;
   background-color: var(--background-color);
   background-image: var(--theme-icon);
+  background-size: 35px;
   background-repeat: no-repeat;
   background-position: center;
   border: none;
@@ -358,12 +364,30 @@ td {
 }
 
 @media (max-width: 700px) {
-  .header {
-    display: none;
+  header button {
+    width: 30px;
+    height: 30px;
+    background-size: 20px;
+  }
+
+  header svg {
+    height: 30px;
   }
 
   .dropdown-button {
     font-size: 11px;
+  }
+
+  .viz-button {
+    padding: 5px 10px;
+  }
+
+  .dropdown-button {
+    padding: 5px 5px;
+  }
+
+  .dropdown-button a svg {
+    width: 10px;
   }
 }
 
