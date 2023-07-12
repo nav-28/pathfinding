@@ -15,9 +15,17 @@
         </svg>
         <button id="toggle-mode"></button>
     </header>
+
+    <div id="tutorial">
+        <div id="tut-count"></div>
+        <div id="tutorial-content"></div>
+        <div id=tutorial-ctrl>
+            <button id="tutorial-skip" class="site-button">Skip</button>
+            <button id="tutorial-prev" class="site-button">Prev</button>
+            <button id="tutorial-next" class="site-button">Next</button>
+        </div>
+    </div>
     <div class="navbar">
-
-
         <div class="dropdown-button">
             <a class="dropdown-trigger unselectable" for="algo">Algorithm: &nbsp<span id="algo-selection"
                     class="speed-selection">
@@ -72,7 +80,6 @@
                     <path fill="currentColor" fill-rule="evenodd"
                         d="M7 9a1 1 0 0 0-.707 1.707l5 5a1 1 0 0 0 1.414 0l5-5A1 1 0 0 0 17 9H7Z" clip-rule="evenodd" />
                 </svg>
-
             </a>
 
             <ul class="dropdown-menu">
@@ -94,8 +101,8 @@
     </div>
 
     <div class="sub-nav">
-        <button id="clear-board">Clear Board</button>
-        <button id="clear-path">Clear Path</button>
+        <button id="clear-board" class="site-button">Clear Board</button>
+        <button id="clear-path" class="site-button">Clear Path</button>
     </div>
 
     <div class="guide">
