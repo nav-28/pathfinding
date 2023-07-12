@@ -88,7 +88,7 @@ header button {
   height: 44px;
   background-color: var(--background-color);
   background-image: var(--theme-icon);
-  background-size: 35px;
+  background-size: 25px;
   background-repeat: no-repeat;
   background-position: center;
   border: none;
@@ -97,17 +97,18 @@ header button {
 
 #tutorial {
   text-align: center;
+  top: 25%;
   margin: 0 -25%;
   left: 50%;
   position: absolute;
-  border: 0.1rem solid;
-  border-color: var(--mode-color-opposite);
   border-radius: 0.75rem;
   width: 50%;
   min-height: 230px;
   overflow: hidden;
-  background-color: var(--text-emph);
+  background-color: var(--background-color);
+  color: var(--text-color);
   z-index: 100;
+  box-shadow: 0 10px 30px -10px var(--background-color);
 }
 
 #tut-count {
@@ -412,7 +413,13 @@ td {
   header button {
     width: 30px;
     height: 30px;
-    background-size: 20px;
+    background-size: 18px;
+  }
+
+  #tutorial {
+    left: 50%;
+    width: 75%;
+    margin: 0 -40%;
   }
 
   header svg {

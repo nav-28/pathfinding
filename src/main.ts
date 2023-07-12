@@ -78,6 +78,7 @@ tutPrevButton.addEventListener('click', () => {
   if (tutorialCounter == 0) return;
   tutorialCounter = tutorialCounter - 1;
   tutorialContentDiv.innerHTML = tutorialContent[tutorialCounter];
+  tutCounterDiv.innerHTML = `${tutorialCounter + 1}/${tutorialContent.length}`;
 });
 
 // window.addEventListener("resize", updateGridSize);

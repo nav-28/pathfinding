@@ -12,6 +12,6 @@ export const tutorialContent = [
     `
 <h1>What is a Pathfinding Algorithm?</h1>
 <h3>At its core, a pathfinding algorithm seeks to find the shortest path between two points. This application visualizes various pathfinding algorithms in action, and more!</h3>
-<p>All of the algorithms on this application are adapted for a 2D grid, where 90 degree turns have a "cost" of 1 and movements from a node to another have a "cost" of 1.</p>
+<p>All of the algorithms on this application are adapted for a 2D grid, where 90 degree turns have a "cost" of 1.5 and movements from a node to another have a "cost" of 1.</p>
 `
 ];
