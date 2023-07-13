@@ -9,8 +9,8 @@ export function runAnimation(): void {
   }
 }
 
+// dark-mode toggle
 const toggleButton = document.getElementById("toggle-mode") as HTMLButtonElement;
-
 toggleButton.addEventListener("click", function () {
   document.documentElement.classList.toggle("dark-mode");
 });
@@ -51,9 +51,9 @@ pathButton.addEventListener('click', () => {
 });
 
 // tutorial
+const tutorialDiv = document.getElementById('tutorial');
 const tutSkip = document.getElementById('tutorial-skip') as HTMLButtonElement;
 tutSkip.addEventListener('click', () => {
-  const tutorialDiv = document.getElementById('tutorial');
   if (!tutorialDiv) return;
   tutorialDiv.style.display = "none";
 });
@@ -66,10 +66,19 @@ tutCounterDiv.innerHTML = `${tutorialCounter + 1}/${tutorialContent.length}`;
 
 const tutNextButton = document.getElementById('tutorial-next') as HTMLButtonElement;
 tutNextButton.addEventListener('click', () => {
+  if (tutorialCounter == tutorialContent.length - 1) {
+    if (!tutorialDiv) return;
+    tutorialDiv.style.display = "none";
+  }
   if (tutorialCounter < tutorialContent.length - 1) {
     tutorialCounter = tutorialCounter + 1;
+    if (tutorialCounter == tutorialContent.length - 1) {
+      tutNextButton.textContent = 'Finish';
+    }
+    changeTutorialContent();
     tutorialContentDiv.innerHTML = tutorialContent[tutorialCounter];
     tutCounterDiv.innerHTML = `${tutorialCounter + 1}/${tutorialContent.length}`;
+
   }
 });
 
@@ -77,9 +86,22 @@ const tutPrevButton = document.getElementById('tutorial-prev') as HTMLButtonElem
 tutPrevButton.addEventListener('click', () => {
   if (tutorialCounter == 0) return;
   tutorialCounter = tutorialCounter - 1;
+  changeTutorialContent();
+});
+
+const tutHelpButton = document.getElementById('tut-helper') as HTMLAnchorElement;
+tutHelpButton.addEventListener('click', () => {
+  if (!tutorialDiv) return;
+  tutorialCounter = 0;
+  tutNextButton.textContent = 'Next';
+  changeTutorialContent();
+  tutorialDiv.style.display = 'block';
+})
+
+function changeTutorialContent() {
   tutorialContentDiv.innerHTML = tutorialContent[tutorialCounter];
   tutCounterDiv.innerHTML = `${tutorialCounter + 1}/${tutorialContent.length}`;
-});
+}
 
 // window.addEventListener("resize", updateGridSize);
 // TODO:
