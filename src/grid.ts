@@ -40,6 +40,9 @@ export class Grid {
     this.rows = rows;
     this.cols = cols;
     this.nodes = [];
+    this.visitedNodes = [];
+    this.pathNodes = [];
+    this.gridAnimated = false;
     // recalculate special nodes if window is smaller
     if (
       this.startNode[0] > rows ||

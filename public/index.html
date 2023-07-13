@@ -8,6 +8,18 @@
 </head>
 
 <body>
+    <div id="tutorial">
+        <div id="tut">
+            <div id="tut-count"></div>
+            <div id="tutorial-content"></div>
+            <div id=tutorial-ctrl>
+                <button id="tutorial-skip" class="site-button">Skip</button>
+                <button id="tutorial-prev" class="site-button">Prev</button>
+                <button id="tutorial-next" class="site-button">Next</button>
+            </div>
+        </div>
+    </div>
+
     <header>
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 512 512">
             <path fill="currentColor"
@@ -16,128 +28,123 @@
         <button id="toggle-mode"></button>
     </header>
 
-    <div id="tutorial">
-        <div id="tut-count"></div>
-        <div id="tutorial-content"></div>
-        <div id=tutorial-ctrl>
-            <button id="tutorial-skip" class="site-button">Skip</button>
-            <button id="tutorial-prev" class="site-button">Prev</button>
-            <button id="tutorial-next" class="site-button">Next</button>
-        </div>
-    </div>
-    <div class="navbar">
-        <div class="dropdown-button">
-            <a class="dropdown-trigger unselectable" for="algo">Algorithm: &nbsp<span id="algo-selection"
-                    class="speed-selection">
-                    Dijkstra</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="currentColor" fill-rule="evenodd"
-                        d="M7 9a1 1 0 0 0-.707 1.707l5 5a1 1 0 0 0 1.414 0l5-5A1 1 0 0 0 17 9H7Z" clip-rule="evenodd" />
-                </svg>
-            </a>
-            <ul class="dropdown-menu">
-                <div class=dropdown-desc>Uninformed Search</div>
-                <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
-                    <a href="#">Breath First Search</a>
-                </li>
-                <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
-                    <a href="#">Depth First Search</a>
-                </li>
-                <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
-                    <a href="#">Dijkstra</a>
-                </li>
-                <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
-                    <a href="#">Bidirectional Brute Force Search</a>
-                </li>
+    <div id="main">
+        <div class="navbar">
+            <div class="dropdown-button">
+                <a class="dropdown-trigger unselectable" for="algo">Algorithm: &nbsp<span id="algo-selection"
+                        class="speed-selection">
+                        Dijkstra</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor" fill-rule="evenodd"
+                            d="M7 9a1 1 0 0 0-.707 1.707l5 5a1 1 0 0 0 1.414 0l5-5A1 1 0 0 0 17 9H7Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <ul class="dropdown-menu">
+                    <div class=dropdown-desc>Uninformed Search</div>
+                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
+                        <a href="#">Breath First Search</a>
+                    </li>
+                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
+                        <a href="#">Depth First Search</a>
+                    </li>
+                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
+                        <a href="#">Dijkstra</a>
+                    </li>
+                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
+                        <a href="#">Bidirectional Brute Force Search</a>
+                    </li>
 
-                <div class=dropdown-desc>Informed Search</div>
-                <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
-                    <a href="#">A*</a>
+                    <div class=dropdown-desc>Informed Search</div>
+                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
+                        <a href="#">A*</a>
+                    </li>
+                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
+                        <a href="#">Bidirectional A*</a>
+                    </li>
+                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
+                        <a href="#">Meet in the Middle</a>
+                    </li>
+                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
+                        <a href="#">Weighted A*</a>
+                    </li>
+                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Slow')">
+                        <a href="#">Bi-Bs</a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <button class="viz-button" id="viz-button" onclick="bundle.runAnimation()">Run</button>
+
+            <div class="dropdown-button">
+                <a class="dropdown-trigger unselectable" for="speed">Speed: &nbsp<span id="speed-selection"
+                        class="speed-selection">
+                        Average</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor" fill-rule="evenodd"
+                            d="M7 9a1 1 0 0 0-.707 1.707l5 5a1 1 0 0 0 1.414 0l5-5A1 1 0 0 0 17 9H7Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item" onclick="bundle.changeSpeed('No Animation')">
+                        <a href="#">No Animation</a>
+                    </li>
+                    <li class="dropdown-item" onclick="bundle.changeSpeed('Fast')">
+                        <a href="#">Fast</a>
+                    </li>
+                    <li class="dropdown-item" onclick="bundle.changeSpeed('Average')">
+                        <a href="#">Average</a>
+                    </li>
+                    <li class="dropdown-item" onclick="bundle.changeSpeed('Slow')">
+                        <a href="#">Slow</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sub-nav">
+            <button id="clear-board" class="site-button">Clear Board</button>
+            <button id="clear-path" class="site-button">Clear Path</button>
+        </div>
+
+        <div class="guide">
+            <ul>
+                <li>
+                    <div class="start-node node"></div>
+                    Start Node
                 </li>
-                <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
-                    <a href="#">Bidirectional A*</a>
-                </li>
-                <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
-                    <a href="#">Meet in the Middle</a>
-                </li>
-                <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
-                    <a href="#">Weighted A*</a>
-                </li>
-                <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Slow')">
-                    <a href="#">Bi-Bs</a>
+                <li>
+                    <div class="end-node node">
+                    </div>
+                    Target Node
                 </li>
             </ul>
+
         </div>
+        <div id="container"></div>
 
-
-        <button class="viz-button" id="viz-button" onclick="bundle.runAnimation()">Run</button>
-
-        <div class="dropdown-button">
-            <a class="dropdown-trigger unselectable" for="speed">Speed: &nbsp<span id="speed-selection"
-                    class="speed-selection">
-                    Average</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="currentColor" fill-rule="evenodd"
-                        d="M7 9a1 1 0 0 0-.707 1.707l5 5a1 1 0 0 0 1.414 0l5-5A1 1 0 0 0 17 9H7Z" clip-rule="evenodd" />
-                </svg>
-            </a>
-
-            <ul class="dropdown-menu">
-                <li class="dropdown-item" onclick="bundle.changeSpeed('No Animation')">
-                    <a href="#">No Animation</a>
-                </li>
-                <li class="dropdown-item" onclick="bundle.changeSpeed('Fast')">
-                    <a href="#">Fast</a>
-                </li>
-                <li class="dropdown-item" onclick="bundle.changeSpeed('Average')">
-                    <a href="#">Average</a>
-                </li>
-                <li class="dropdown-item" onclick="bundle.changeSpeed('Slow')">
-                    <a href="#">Slow</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    </div>
-
-    <div class="sub-nav">
-        <button id="clear-board" class="site-button">Clear Board</button>
-        <button id="clear-path" class="site-button">Clear Path</button>
-    </div>
-
-    <div class="guide">
-        <ul>
-            <li>
-                <div class="start-node node"></div>
-                Start Node
-            </li>
-            <li>
-                <div class="end-node node">
-                </div>
-                Target Node
-            </li>
-        </ul>
-
-    </div>
-    <div id="container"></div>
-
-    <div class="footer">
-        <a href="#" id="tut-helper">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="33.11" viewBox="0 0 928 1280">
-                <path fill="currentColor"
-                    d="M608 1000v240q0 16-12 28t-28 12H328q-16 0-28-12t-12-28v-240q0-16 12-28t28-12h240q16 0 28 12t12 28zm316-600q0 54-15.5 101t-35 76.5t-55 59.5t-57.5 43.5t-61 35.5q-41 23-68.5 65T604 848q0 17-12 32.5T564 896H324q-15 0-25.5-18.5T288 840v-45q0-83 65-156.5T496 530q59-27 84-56t25-76q0-42-46.5-74T451 292q-65 0-108 29q-35 25-107 115q-13 16-31 16q-12 0-25-8L16 319Q3 309 .5 294T6 266Q166 0 470 0q80 0 161 31t146 83t106 127.5T924 400z" />
-            </svg>
-        </a>
-
-        <a href="https://github.com/nav-28/pathfinding" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <g fill="none">
-                    <path d="M0 0h24v24H0z" />
+        <div class="footer">
+            <a href="#" id="tut-helper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="33.11" viewBox="0 0 928 1280">
                     <path fill="currentColor"
-                        d="M14.62 2.662a1.5 1.5 0 0 1 1.04 1.85l-4.431 15.787a1.5 1.5 0 0 1-2.889-.81L12.771 3.7a1.5 1.5 0 0 1 1.85-1.039ZM7.56 6.697a1.5 1.5 0 0 1 0 2.12L4.38 12l3.182 3.182a1.5 1.5 0 1 1-2.122 2.121L1.197 13.06a1.5 1.5 0 0 1 0-2.12l4.242-4.243a1.5 1.5 0 0 1 2.122 0Zm8.88 2.12a1.5 1.5 0 1 1 2.12-2.12l4.243 4.242a1.5 1.5 0 0 1 0 2.121l-4.242 4.243a1.5 1.5 0 1 1-2.122-2.121L19.621 12L16.44 8.818Z" />
-                </g>
-            </svg>
-        </a>
+                        d="M608 1000v240q0 16-12 28t-28 12H328q-16 0-28-12t-12-28v-240q0-16 12-28t28-12h240q16 0 28 12t12 28zm316-600q0 54-15.5 101t-35 76.5t-55 59.5t-57.5 43.5t-61 35.5q-41 23-68.5 65T604 848q0 17-12 32.5T564 896H324q-15 0-25.5-18.5T288 840v-45q0-83 65-156.5T496 530q59-27 84-56t25-76q0-42-46.5-74T451 292q-65 0-108 29q-35 25-107 115q-13 16-31 16q-12 0-25-8L16 319Q3 309 .5 294T6 266Q166 0 470 0q80 0 161 31t146 83t106 127.5T924 400z" />
+                </svg>
+            </a>
+
+            <a href="https://github.com/nav-28/pathfinding" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <g fill="none">
+                        <path d="M0 0h24v24H0z" />
+                        <path fill="currentColor"
+                            d="M14.62 2.662a1.5 1.5 0 0 1 1.04 1.85l-4.431 15.787a1.5 1.5 0 0 1-2.889-.81L12.771 3.7a1.5 1.5 0 0 1 1.85-1.039ZM7.56 6.697a1.5 1.5 0 0 1 0 2.12L4.38 12l3.182 3.182a1.5 1.5 0 1 1-2.122 2.121L1.197 13.06a1.5 1.5 0 0 1 0-2.12l4.242-4.243a1.5 1.5 0 0 1 2.122 0Zm8.88 2.12a1.5 1.5 0 1 1 2.12-2.12l4.243 4.242a1.5 1.5 0 0 1 0 2.121l-4.242 4.243a1.5 1.5 0 1 1-2.122-2.121L19.621 12L16.44 8.818Z" />
+                    </g>
+                </svg>
+            </a>
+        </div>
+
     </div>
     <script src="bundle.js"></script>
 </body>

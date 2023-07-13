@@ -56,6 +56,8 @@ const tutSkip = document.getElementById('tutorial-skip') as HTMLButtonElement;
 tutSkip.addEventListener('click', () => {
   if (!tutorialDiv) return;
   tutorialDiv.style.display = "none";
+  document.body.style.pointerEvents = "auto";
+  document.getElementById('main')!.style.opacity = "1";
 });
 
 const tutorialContentDiv = document.getElementById('tutorial-content') as HTMLDivElement;
@@ -69,6 +71,8 @@ tutNextButton.addEventListener('click', () => {
   if (tutorialCounter == tutorialContent.length - 1) {
     if (!tutorialDiv) return;
     tutorialDiv.style.display = "none";
+    document.body.style.pointerEvents = "auto";
+    document.getElementById('main')!.style.opacity = "1";
   }
   if (tutorialCounter < tutorialContent.length - 1) {
     tutorialCounter = tutorialCounter + 1;
@@ -85,6 +89,7 @@ tutNextButton.addEventListener('click', () => {
 const tutPrevButton = document.getElementById('tutorial-prev') as HTMLButtonElement;
 tutPrevButton.addEventListener('click', () => {
   if (tutorialCounter == 0) return;
+  tutNextButton.textContent = 'Next';
   tutorialCounter = tutorialCounter - 1;
   changeTutorialContent();
 });
@@ -95,8 +100,10 @@ tutHelpButton.addEventListener('click', () => {
   tutorialCounter = 0;
   tutNextButton.textContent = 'Next';
   changeTutorialContent();
-  tutorialDiv.style.display = 'block';
-})
+  tutorialDiv.style.display = 'flex';
+  document.getElementById('main')!.style.opacity = "25%";
+  document.body.style.pointerEvents = "none";
+});
 
 function changeTutorialContent() {
   tutorialContentDiv.innerHTML = tutorialContent[tutorialCounter];
