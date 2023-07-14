@@ -222,7 +222,6 @@ main {
 }
 
 .guide ul {
-  display: flex;
   margin: 2em auto;
   text-align: center;
   justify-content: space-around;
@@ -238,11 +237,15 @@ main {
   background-repeat: no-repeat;
   background-position: center;
   display: inline-block;
-  filter: invert(var(--invert-fill));
   width: 25px;
   height: 25px;
   position: relative;
   top: 0.35rem;
+}
+
+.guide .special-node {
+  filter: invert(var(--invert-fill));
+  border: none;
 }
 
 table {
@@ -270,6 +273,14 @@ td {
 .wall-node {
   background-color: #284190;
   border: 1px solid #808080;
+  animation-name: specialNodes;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 
 .special-node {
@@ -298,6 +309,7 @@ td {
   animation-timing-function: ease-in-out;
   animation-direction: alternate;
   animation-fill-mode: forwards;
+  border: 1px solid #808080;
 }
 
 .path-node {
