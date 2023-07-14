@@ -9,11 +9,11 @@ function calculateGridHeight(): number {
   const top = document.getElementById('top')?.offsetHeight;
   const footer = document.querySelector('footer')?.offsetHeight;
   const header = document.querySelector('header')?.offsetHeight;
+  console.log(`${top} ${footer} ${header} ${window.innerHeight}`);
   return window.innerHeight - top! - footer! - header!;
 }
 
-console.log(calculateGridHeight());
-var grid = new Grid(calculateGridHeight() / 28, window.innerWidth / 25);
+var grid = new Grid((calculateGridHeight() / 25) - 4, window.innerWidth / 25);
 
 export function runAnimation(): void {
   if (!grid.animationRunning) {
@@ -44,6 +44,8 @@ export function changeSpeed(speed: string): void {
     grid.setAnimationSpeed(0);
   }
 }
+
+869 - 54 - 211 - 64
 
 // clear board
 const clearBoardButton = document.getElementById('clear-board') as HTMLButtonElement;

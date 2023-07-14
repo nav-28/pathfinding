@@ -1,5 +1,5 @@
 import { Node, NodeType } from "./edge";
-import { dijkstra } from "./algorithms";
+import { SearchResult, dijkstra } from "./algorithms";
 
 export class Grid {
   private nodes: Node[][] = [];
@@ -123,7 +123,7 @@ export class Grid {
     this.clearPath();
     this.gridAnimated = true;
     this.animationRunning = true;
-    const result = dijkstra(this);
+    const result = this.runAlgorithm();
     this.visitedNodes = result.expandedNodes;
     this.pathNodes = result.path;
     this.visitedNodes.forEach((node, index) => {
@@ -155,10 +155,11 @@ export class Grid {
       node.element.classList.remove(NodeType.Path);
     });
 
-    const result = dijkstra(this);
+    const result = this.runAlgorithm();
     this.visitedNodes = result.expandedNodes;
     this.pathNodes = result.path;
     result.expandedNodes.forEach((node) => {
+      if (node.type == NodeType.Wall) return;
       node.element.classList.add(NodeType.Visited);
     });
     result.path.forEach((node) => {
@@ -172,17 +173,13 @@ export class Grid {
     if (this.animationRunning) {
       return;
     }
-
+    this.draggingNode = node;
+    this.clickedNode = node;
     if (event instanceof MouseEvent) {
-      // Mouse event handling
-      this.draggingNode = node;
-      this.clickedNode = node;
       document.addEventListener("mousemove", this.handleMouseMove);
       document.addEventListener("mouseup", this.handleMouseUp);
       this.handleMouseMove(event);
     } else if (event instanceof TouchEvent) {
-      // Touch event handling
-      this.draggingNode = node;
       event.preventDefault();
       document.addEventListener("touchmove", this.handleTouchMove, { passive: false });
       document.addEventListener("touchend", this.handleTouchEnd);
@@ -304,6 +301,11 @@ export class Grid {
   handleDragEnd(): void {
     this.draggingNode = undefined;
     this.clickedNode = undefined;
+  }
+
+
+  runAlgorithm(): SearchResult {
+    return dijkstra(this);
   }
 
 
