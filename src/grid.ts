@@ -10,6 +10,7 @@ export class Grid {
   private pathNodes: Node[] = [];
   private animatationSpeed: number = 50;
   private draggingNode: Node | undefined;
+  private clickedNode: Node | undefined;
   private draggingType!: NodeType;
 
   public animationRunning: boolean = false;
@@ -127,6 +128,7 @@ export class Grid {
     this.pathNodes = result.path;
     this.visitedNodes.forEach((node, index) => {
       setTimeout(() => {
+        if (node.type == NodeType.Wall) return;
         node.element.classList.add(NodeType.Visited);
       }, index * this.animatationSpeed);
     });
@@ -174,11 +176,12 @@ export class Grid {
     if (event instanceof MouseEvent) {
       // Mouse event handling
       this.draggingNode = node;
+      this.clickedNode = node;
       document.addEventListener("mousemove", this.handleMouseMove);
       document.addEventListener("mouseup", this.handleMouseUp);
+      this.handleMouseMove(event);
     } else if (event instanceof TouchEvent) {
       // Touch event handling
-      const touch = event.touches[0];
       this.draggingNode = node;
       event.preventDefault();
       document.addEventListener("touchmove", this.handleTouchMove, { passive: false });
@@ -190,19 +193,15 @@ export class Grid {
 
   handleMouseMove(event: MouseEvent): void {
     if (!this.draggingNode) return;
+    const clickedNode = document.elementFromPoint(
+      event.clientX,
+      event.clientY
+    ) as HTMLElement;
 
     if (this.draggingNode.type == NodeType.StartNode || this.draggingNode.type == NodeType.EndNode) {
-      const newSpecialNode = document.elementFromPoint(
-        event.clientX,
-        event.clientY
-      ) as HTMLElement;
-      this.handleSpecialNodeUpdate(newSpecialNode);
+      this.handleSpecialNodeUpdate(clickedNode);
     } else {
-      const newWallOrDefaultNode = document.elementFromPoint(
-        event.clientX,
-        event.clientY,
-      ) as HTMLElement;
-      this.handleDefaultOrWallNodeUpdate(newWallOrDefaultNode);
+      this.handleDefaultOrWallNodeUpdate(clickedNode);
     }
   }
 
@@ -210,14 +209,18 @@ export class Grid {
     if (!this.draggingNode) return;
 
     const touch = event.touches[0];
-    const newSpecialNode = document.elementFromPoint(
+    const touchedNode = document.elementFromPoint(
       touch.clientX,
       touch.clientY
     ) as HTMLElement;
+    if (this.draggingNode.type == NodeType.StartNode || this.draggingNode.type == NodeType.EndNode) {
 
-    if (!newSpecialNode || !newSpecialNode.classList.contains(NodeType.Default)) return;
-
-    this.handleSpecialNodeUpdate(newSpecialNode);
+      if (!touchedNode || !touchedNode.classList.contains(NodeType.Default)) return;
+      this.handleSpecialNodeUpdate(touchedNode);
+    }
+    else {
+      this.handleDefaultOrWallNodeUpdate(touchedNode);
+    }
   }
 
   handleDefaultOrWallNodeUpdate(newNodeElement: HTMLElement | null): void {
@@ -227,14 +230,22 @@ export class Grid {
     const newNode = this.getNode(row, col);
     if (!newNode) return;
 
-    if (!this.draggingNode) {
+    if (this.clickedNode && this.clickedNode.row == row && this.clickedNode.col == col) {
+      this.changeWallAndDefaultNode(newNode);
+      this.clickedNode = undefined;
       return;
     }
 
-
+    if (!this.draggingNode) return;
     if (this.draggingNode.row == row && this.draggingNode.col == col) {
       return;
     }
+
+    this.changeWallAndDefaultNode(newNode);
+    this.draggingNode = newNode;
+  }
+
+  changeWallAndDefaultNode(newNode: Node): void {
     if (newNode.type == NodeType.Wall) {
       newNode.type = NodeType.Default;
       newNode.element.className = NodeType.Default;
@@ -243,16 +254,16 @@ export class Grid {
       newNode.type = NodeType.Wall;
       newNode.element.className = NodeType.Wall;
     }
-    this.draggingNode = newNode;
+
   }
 
   handleSpecialNodeUpdate(newSpecialNode: HTMLElement | null): void {
-    if (!newSpecialNode || !newSpecialNode.classList.contains(NodeType.Default))
+    if (!newSpecialNode || !newSpecialNode.classList.contains(NodeType.Default) || !newSpecialNode.classList.contains(NodeType.Default))
       return;
 
     const [newRow, newCol] = newSpecialNode.id.split("-").map(Number);
     const newNode = this.getNode(newRow, newCol);
-    if (!newNode || newNode.type !== NodeType.Default) return;
+    if (!newNode) return;
 
     if (!this.draggingNode) {
       return;
@@ -291,8 +302,8 @@ export class Grid {
   }
 
   handleDragEnd(): void {
-    if (!this.draggingNode) return;
     this.draggingNode = undefined;
+    this.clickedNode = undefined;
   }
 
 
@@ -325,7 +336,7 @@ export class Grid {
         }
         var x = node.row + i;
         var y = node.col + j;
-        if (this.isValidPair(x, y)) {
+        if (this.isValidPair(x, y) && node.type != NodeType.Wall) {
           this.nodes[x][y].gVal = this.nodes[x][y].gVal + this.cost(i, j);
           children.push(this.nodes[x][y]);
         }

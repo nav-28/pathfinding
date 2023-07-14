@@ -1,7 +1,19 @@
 import { Grid } from "./grid";
 import { tutorialContent } from './tutorial';
 
-var grid = new Grid(window.innerHeight / (25 * 2), window.innerWidth / 25);
+
+
+// grid initialize
+
+function calculateGridHeight(): number {
+  const top = document.getElementById('top')?.offsetHeight;
+  const footer = document.querySelector('footer')?.offsetHeight;
+  const header = document.querySelector('header')?.offsetHeight;
+  return window.innerHeight - top! - footer! - header!;
+}
+
+console.log(calculateGridHeight());
+var grid = new Grid(calculateGridHeight() / 28, window.innerWidth / 25);
 
 export function runAnimation(): void {
   if (!grid.animationRunning) {

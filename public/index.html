@@ -29,104 +29,113 @@
     </header>
 
     <main>
-        <div class="navbar">
-            <div class="dropdown-button">
-                <a class="dropdown-trigger unselectable" for="algo">Algorithm: &nbsp<span id="algo-selection"
-                        class="speed-selection">
-                        Dijkstra</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="currentColor" fill-rule="evenodd"
-                            d="M7 9a1 1 0 0 0-.707 1.707l5 5a1 1 0 0 0 1.414 0l5-5A1 1 0 0 0 17 9H7Z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </a>
-                <ul class="dropdown-menu">
-                    <div class=dropdown-desc>Uninformed Search</div>
-                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
-                        <a href="#">Breath First Search</a>
-                    </li>
-                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
-                        <a href="#">Depth First Search</a>
-                    </li>
-                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
-                        <a href="#">Dijkstra</a>
-                    </li>
-                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
-                        <a href="#">Bidirectional Brute Force Search</a>
-                    </li>
+        <div id="top">
 
-                    <div class=dropdown-desc>Informed Search</div>
-                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
-                        <a href="#">A*</a>
-                    </li>
-                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
-                        <a href="#">Bidirectional A*</a>
-                    </li>
-                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
-                        <a href="#">Meet in the Middle</a>
-                    </li>
-                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
-                        <a href="#">Weighted A*</a>
-                    </li>
-                    <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Slow')">
-                        <a href="#">Bi-Bs</a>
-                    </li>
-                </ul>
+            <div class="navbar">
+                <div class="dropdown-button">
+                    <a class="dropdown-trigger unselectable" for="algo">Algorithm: &nbsp<span id="algo-selection"
+                            class="speed-selection">
+                            Dijkstra</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="currentColor" fill-rule="evenodd"
+                                d="M7 9a1 1 0 0 0-.707 1.707l5 5a1 1 0 0 0 1.414 0l5-5A1 1 0 0 0 17 9H7Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <div class=dropdown-desc>Uninformed Search</div>
+                        <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
+                            <a href="#">Breath First Search</a>
+                        </li>
+                        <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
+                            <a href="#">Depth First Search</a>
+                        </li>
+                        <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
+                            <a href="#">Dijkstra</a>
+                        </li>
+                        <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Fast')">
+                            <a href="#">Bidirectional Brute Force Search</a>
+                        </li>
+
+                        <div class=dropdown-desc>Informed Search</div>
+                        <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
+                            <a href="#">A*</a>
+                        </li>
+                        <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
+                            <a href="#">Bidirectional A*</a>
+                        </li>
+                        <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
+                            <a href="#">Meet in the Middle</a>
+                        </li>
+                        <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Average')">
+                            <a href="#">Weighted A*</a>
+                        </li>
+                        <li class="dropdown-item drop-algo" onclick="bundle.changeSpeed('Slow')">
+                            <a href="#">Bi-Bs</a>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <button class="viz-button" id="viz-button" onclick="bundle.runAnimation()">Run</button>
+
+                <div class="dropdown-button">
+                    <a class="dropdown-trigger unselectable" for="speed">Speed: &nbsp<span id="speed-selection"
+                            class="speed-selection">
+                            Average</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="currentColor" fill-rule="evenodd"
+                                d="M7 9a1 1 0 0 0-.707 1.707l5 5a1 1 0 0 0 1.414 0l5-5A1 1 0 0 0 17 9H7Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item" onclick="bundle.changeSpeed('No Animation')">
+                            <a href="#">No Animation</a>
+                        </li>
+                        <li class="dropdown-item" onclick="bundle.changeSpeed('Fast')">
+                            <a href="#">Fast</a>
+                        </li>
+                        <li class="dropdown-item" onclick="bundle.changeSpeed('Average')">
+                            <a href="#">Average</a>
+                        </li>
+                        <li class="dropdown-item" onclick="bundle.changeSpeed('Slow')">
+                            <a href="#">Slow</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
+            <div class="sub-nav">
+                <button id="clear-board" class="site-button">Clear Board</button>
+                <button id="clear-path" class="site-button">Clear Path</button>
+            </div>
 
-            <button class="viz-button" id="viz-button" onclick="bundle.runAnimation()">Run</button>
+            <div class="guide">
+                <ul>
+                    <li>
+                        <div class="start-node node"></div>
+                        Start Node
+                    </li>
+                    <li>
+                        <div class="wall-node node"></div>
+                        Wall Node
+                    </li>
 
-            <div class="dropdown-button">
-                <a class="dropdown-trigger unselectable" for="speed">Speed: &nbsp<span id="speed-selection"
-                        class="speed-selection">
-                        Average</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="currentColor" fill-rule="evenodd"
-                            d="M7 9a1 1 0 0 0-.707 1.707l5 5a1 1 0 0 0 1.414 0l5-5A1 1 0 0 0 17 9H7Z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </a>
-
-                <ul class="dropdown-menu">
-                    <li class="dropdown-item" onclick="bundle.changeSpeed('No Animation')">
-                        <a href="#">No Animation</a>
-                    </li>
-                    <li class="dropdown-item" onclick="bundle.changeSpeed('Fast')">
-                        <a href="#">Fast</a>
-                    </li>
-                    <li class="dropdown-item" onclick="bundle.changeSpeed('Average')">
-                        <a href="#">Average</a>
-                    </li>
-                    <li class="dropdown-item" onclick="bundle.changeSpeed('Slow')">
-                        <a href="#">Slow</a>
+                    <li>
+                        <div class="end-node node">
+                        </div>
+                        Target Node
                     </li>
                 </ul>
+
             </div>
-        </div>
-
-        <div class="sub-nav">
-            <button id="clear-board" class="site-button">Clear Board</button>
-            <button id="clear-path" class="site-button">Clear Path</button>
-        </div>
-
-        <div class="guide">
-            <ul>
-                <li>
-                    <div class="start-node node"></div>
-                    Start Node
-                </li>
-                <li>
-                    <div class="end-node node">
-                    </div>
-                    Target Node
-                </li>
-            </ul>
 
         </div>
         <div id="container"></div>
 
-        <div class="footer">
+        <footer>
             <a href="#" id="tut-helper">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="33.11" viewBox="0 0 928 1280">
                     <path fill="currentColor"
@@ -143,7 +152,7 @@
                     </g>
                 </svg>
             </a>
-        </div>
+        </footer>
 
     </main>
     <script src="bundle.js"></script>

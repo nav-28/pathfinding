@@ -268,10 +268,12 @@ td {
 }
 
 .wall-node {
-  background-color: var(--background-color);
+  background-color: #284190;
+  border: 1px solid #808080;
 }
 
 .special-node {
+  border: 1px solid #808080;
   filter: invert(var(--invert-fill));
   background-position: center;
   background-repeat: no-repeat;
@@ -304,6 +306,7 @@ td {
   animation-duration: 2s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
+  border: 1px solid #808080;
 }
 
 .dropdown-button {
@@ -396,7 +399,7 @@ td {
   text-align: left;
 }
 
-.footer {
+footer {
   margin: 10px;
   position: fixed;
   bottom: 0;
@@ -407,21 +410,21 @@ td {
   justify-content: space-between;
 }
 
-.footer a {
+footer a {
   padding: 5px;
   display: inline-block;
   margin-right: 10px;
   color: var(--background-color);
 }
 
-.footer a:hover {
+footer a:hover {
   transition: all 500ms ease;
   color: var(--text-color);
   background-color: var(--background-color);
   border-radius: 5px;
 }
 
-.footer svg {
+footer svg {
   height: 30px;
   width: auto;
 }
@@ -470,7 +473,7 @@ td {
     width: 10px;
   }
 
-  .footer svg {
+  footer svg {
     height: 20px;
   }
 }
