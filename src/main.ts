@@ -57,7 +57,7 @@ tutSkip.addEventListener('click', () => {
   if (!tutorialDiv) return;
   tutorialDiv.style.display = "none";
   document.body.style.pointerEvents = "auto";
-  document.getElementById('main')!.style.opacity = "1";
+  document.querySelector('main')!.style.opacity = "1";
 });
 
 const tutorialContentDiv = document.getElementById('tutorial-content') as HTMLDivElement;
@@ -72,7 +72,7 @@ tutNextButton.addEventListener('click', () => {
     if (!tutorialDiv) return;
     tutorialDiv.style.display = "none";
     document.body.style.pointerEvents = "auto";
-    document.getElementById('main')!.style.opacity = "1";
+    document.querySelector('main')!.style.opacity = "1";
   }
   if (tutorialCounter < tutorialContent.length - 1) {
     tutorialCounter = tutorialCounter + 1;
@@ -101,7 +101,7 @@ tutHelpButton.addEventListener('click', () => {
   tutNextButton.textContent = 'Next';
   changeTutorialContent();
   tutorialDiv.style.display = 'flex';
-  document.getElementById('main')!.style.opacity = "25%";
+  document.querySelector('main')!.style.opacity = "25%";
   document.body.style.pointerEvents = "none";
 });
 
@@ -110,9 +110,12 @@ function changeTutorialContent() {
   tutCounterDiv.innerHTML = `${tutorialCounter + 1}/${tutorialContent.length}`;
 }
 
+// debug
+
+
 // window.addEventListener("resize", updateGridSize);
 // TODO:
-// Add basic buttons: clear board, clear path, clear walls
+// Deal with hover effect on mobile
 // Add Tutorial.
 // Add More Algorithms
 // Add Heuristics

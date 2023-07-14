@@ -71,50 +71,33 @@ export class Grid {
         const nodeElement = document.createElement("td");
         nodeElement.id = `${row}-${col}`;
         nodeElement.className = NodeType.Default;
+        let nodeType = NodeType.Default;
+
         if (row == this.startNode[0] && col == this.startNode[1]) {
           nodeElement.className = NodeType.StartNode;
-          this.nodes[row][col] = new Node(
-            row,
-            col,
-            NodeType.StartNode,
-            nodeElement,
-          );
+          nodeType = NodeType.StartNode;
           this.startNode = [row, col];
-          tableRow.appendChild(nodeElement);
-          nodeElement.addEventListener(
-            "mousedown",
-            this.handleNodeDrag.bind(null, this.nodes[row][col]),
-          );
-          nodeElement.addEventListener(
-            "touchstart",
-            this.handleNodeDrag.bind(null, this.nodes[row][col])
-          );
-          continue;
         }
-
         if (row == this.endNode[0] && col == this.endNode[1]) {
           nodeElement.className = NodeType.EndNode;
-          this.nodes[row][col] = new Node(
-            row,
-            col,
-            NodeType.EndNode,
-            nodeElement,
-          );
+          nodeType = NodeType.EndNode;
           this.endNode = [row, col];
-          tableRow.appendChild(nodeElement);
-          nodeElement.addEventListener(
-            "mousedown",
-            this.handleNodeDrag.bind(null, this.nodes[row][col]),
-          );
-          nodeElement.addEventListener('touchstart', this.handleNodeDrag.bind(null, this.nodes[row][col]));
-          continue;
         }
         this.nodes[row][col] = new Node(
           row,
           col,
-          NodeType.Default,
+          nodeType,
           nodeElement,
         );
+        nodeElement.addEventListener(
+          "mousedown",
+          this.handleNodeDrag.bind(null, this.nodes[row][col]),
+        );
+        nodeElement.addEventListener(
+          "touchstart",
+          this.handleNodeDrag.bind(null, this.nodes[row][col])
+        );
+
         tableRow.appendChild(nodeElement);
       }
       boardBody.appendChild(tableRow);
@@ -208,12 +191,19 @@ export class Grid {
   handleMouseMove(event: MouseEvent): void {
     if (!this.draggingNode) return;
 
-    const newSpecialNode = document.elementFromPoint(
-      event.clientX,
-      event.clientY
-    ) as HTMLElement;
-
-    this.handleSpecialNodeUpdate(newSpecialNode);
+    if (this.draggingNode.type == NodeType.StartNode || this.draggingNode.type == NodeType.EndNode) {
+      const newSpecialNode = document.elementFromPoint(
+        event.clientX,
+        event.clientY
+      ) as HTMLElement;
+      this.handleSpecialNodeUpdate(newSpecialNode);
+    } else {
+      const newWallOrDefaultNode = document.elementFromPoint(
+        event.clientX,
+        event.clientY,
+      ) as HTMLElement;
+      this.handleDefaultOrWallNodeUpdate(newWallOrDefaultNode);
+    }
   }
 
   handleTouchMove(event: TouchEvent): void {
@@ -228,6 +218,32 @@ export class Grid {
     if (!newSpecialNode || !newSpecialNode.classList.contains(NodeType.Default)) return;
 
     this.handleSpecialNodeUpdate(newSpecialNode);
+  }
+
+  handleDefaultOrWallNodeUpdate(newNodeElement: HTMLElement | null): void {
+    if (!newNodeElement || newNodeElement.classList.contains(NodeType.StartNode) || newNodeElement.classList.contains(NodeType.EndNode)) return;
+
+    const [row, col] = newNodeElement.id.split("-").map(Number);
+    const newNode = this.getNode(row, col);
+    if (!newNode) return;
+
+    if (!this.draggingNode) {
+      return;
+    }
+
+
+    if (this.draggingNode.row == row && this.draggingNode.col == col) {
+      return;
+    }
+    if (newNode.type == NodeType.Wall) {
+      newNode.type = NodeType.Default;
+      newNode.element.className = NodeType.Default;
+    }
+    else if (newNode.type == NodeType.Default) {
+      newNode.type = NodeType.Wall;
+      newNode.element.className = NodeType.Wall;
+    }
+    this.draggingNode = newNode;
   }
 
   handleSpecialNodeUpdate(newSpecialNode: HTMLElement | null): void {
@@ -264,7 +280,6 @@ export class Grid {
   handleMouseUp(): void {
     document.removeEventListener("mousemove", this.handleMouseMove);
     document.removeEventListener("mouseup", this.handleMouseUp);
-
     this.handleDragEnd();
   }
 
@@ -272,27 +287,12 @@ export class Grid {
     document.removeEventListener("touchmove", this.handleTouchMove);
     document.removeEventListener("touchend", this.handleTouchEnd);
     document.removeEventListener("touchcancel", this.handleTouchEnd);
-
     this.handleDragEnd();
   }
 
   handleDragEnd(): void {
-    // Add event listener to new special node
     if (!this.draggingNode) return;
-    const nodeElement = document.getElementById(
-      `${this.draggingNode.row}-${this.draggingNode.col}`
-    );
-    if (nodeElement) {
-      nodeElement.addEventListener(
-        "mousedown",
-        this.handleNodeDrag.bind(
-          null,
-          this.nodes[this.draggingNode.row][this.draggingNode.col]
-        )
-      );
-      nodeElement.addEventListener('touchstart', this.handleNodeDrag.bind(null, this.nodes[this.draggingNode.row][this.draggingNode.col]))
-      this.draggingNode = undefined;
-    }
+    this.draggingNode = undefined;
   }
 
 

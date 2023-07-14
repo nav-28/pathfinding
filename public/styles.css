@@ -98,7 +98,7 @@ header button {
   transition: all 200ms linear;
 }
 
-#main {
+main {
   opacity: 25%;
 }
 
@@ -121,9 +121,9 @@ header button {
   top: 25%;
   text-align: center;
   pointer-events: auto;
-  min-height: 230px;
+  min-height: 30%;
   min-width: 50%;
-  max-width: 75%;
+  max-width: 60%;
   background-color: var(--background-color);
   color: var(--text-color);
   box-shadow: 0 10px 30px -10px var(--background-color);
@@ -153,6 +153,7 @@ header button {
 }
 
 #tutorial-ctrl {
+  position: relative;
   padding: 5px;
   width: 100%;
   bottom: 0;
@@ -240,6 +241,8 @@ header button {
   filter: invert(var(--invert-fill));
   width: 25px;
   height: 25px;
+  position: relative;
+  top: 0.35rem;
 }
 
 table {
@@ -262,6 +265,10 @@ td {
 
 .end-node {
   background-image: var(--target-icon);
+}
+
+.wall-node {
+  background-color: var(--background-color);
 }
 
 .special-node {
@@ -437,6 +444,10 @@ td {
 
   #tutorial {
     top: -10%;
+  }
+
+  #tut {
+    max-width: 70%;
   }
 
   header svg {
