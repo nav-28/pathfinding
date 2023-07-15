@@ -1,5 +1,5 @@
 import { Node, NodeType } from "./node";
-import { SearchResult, dijkstra } from "./algorithms";
+import { SearchResult, dijkstra, Algo, bfs, dfs } from "./algorithms";
 
 export class Grid {
   private nodes: Node[][] = [];
@@ -12,6 +12,7 @@ export class Grid {
   private draggingNode: Node | undefined;
   private clickedNode: Node | undefined;
   private draggingType!: NodeType;
+  private currentAlgorithm: Algo = Algo.Dijkstra;
 
   public animationRunning: boolean = false;
 
@@ -310,7 +311,14 @@ export class Grid {
 
 
   runAlgorithm(): SearchResult {
-    return dijkstra(this);
+    switch (this.currentAlgorithm) {
+      case Algo.Dijkstra:
+        return dijkstra(this);
+      case Algo.Bfs:
+        return bfs(this);
+      case Algo.Dfs:
+        return dfs(this);
+    }
   }
 
 
@@ -373,5 +381,9 @@ export class Grid {
 
   setAnimationSpeed(speed: number): void {
     this.animatationSpeed = speed;
+  }
+
+  setAlgorithm(algo: Algo): void {
+    this.currentAlgorithm = algo;
   }
 }

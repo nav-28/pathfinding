@@ -1,5 +1,6 @@
 import { Grid } from "./grid";
 import { tutorialContent } from './tutorial';
+import { Algo } from './algorithms';
 
 
 
@@ -25,6 +26,15 @@ const toggleButton = document.getElementById("toggle-mode") as HTMLButtonElement
 toggleButton.addEventListener("click", function () {
   document.documentElement.classList.toggle("dark-mode");
 });
+
+
+// algo selector
+export function changeAlgo(algo: string): void {
+  const algoText = document.getElementById('algo-selection');
+  if (!algoText) return;
+  grid.setAlgorithm(algo as Algo);
+  algoText.textContent = algo;
+}
 
 // speed selector
 export function changeSpeed(speed: string): void {
