@@ -248,7 +248,7 @@ export class Grid {
   }
 
   changeWallAndDefaultNode(newNode: Node): void {
-    if (newNode.type == NodeType.Wall) {
+    if (newNode.isWallNode()) {
       newNode.type = NodeType.Default;
       newNode.element.className = NodeType.Default;
     }
@@ -259,11 +259,13 @@ export class Grid {
 
   }
 
-  handleSpecialNodeUpdate(newSpecialNode: HTMLElement | null): void {
-    if (!newSpecialNode || newSpecialNode.classList.contains(NodeType.EndNode) || newSpecialNode.classList.contains(NodeType.StartNode))
+  handleSpecialNodeUpdate(newNodeElement: HTMLElement | null): void {
+    if (!newNodeElement) return;
+    if (newNodeElement.className === NodeType.EndNode || newNodeElement.className === NodeType.StartNode) {
       return;
+    }
 
-    const [newRow, newCol] = newSpecialNode.id.split("-").map(Number);
+    const [newRow, newCol] = newNodeElement.id.split("-").map(Number);
     const newNode = this.getNode(newRow, newCol);
     if (!newNode) return;
 
@@ -284,7 +286,7 @@ export class Grid {
     this.draggingNode = newNode;
     this.draggingNode.type = this.draggingType;
 
-    newSpecialNode.className = this.draggingType;
+    newNodeElement.className = this.draggingType;
     if (this.gridAnimated) {
       this.showPath();
     }

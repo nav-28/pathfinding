@@ -9,7 +9,6 @@ function calculateGridHeight(): number {
   const top = document.getElementById('top')?.offsetHeight;
   const footer = document.querySelector('footer')?.offsetHeight;
   const header = document.querySelector('header')?.offsetHeight;
-  console.log(`${top} ${footer} ${header} ${window.innerHeight}`);
   return window.innerHeight - top! - footer! - header!;
 }
 
@@ -52,7 +51,7 @@ const clearBoardButton = document.getElementById('clear-board') as HTMLButtonEle
 clearBoardButton.addEventListener('click', () => {
   if (!grid.animationRunning) {
     grid.calculateSpecialNodesPosition();
-    grid.initialize(window.innerHeight / (25 * 2), window.innerWidth / 25);
+    grid.initialize((calculateGridHeight() / 25) - 3, window.innerWidth / 25);
   }
 });
 
