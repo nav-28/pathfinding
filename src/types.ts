@@ -39,5 +39,13 @@ export enum Algo {
   BiA = "Bidirectional A*",
 }
 
+export const AlgoDesc: Record<Algo, string> = {
+  [Algo.Dijkstra]: "<b>Dijkstra algorithm</b> is a popular pathfinding algorithm that finds the shortest path between two nodes in a graph",
+  [Algo.Bfs]: "<b>Breadth First Search (BFS)</b> is a graph traversal algorithm that explores all the vertices of a graph in breadth-first order",
+  [Algo.Dfs]: "<b>Depth First Search (DFS)</b> is a graph traversal algorithm that explores as far as possible along each branch before backtracking",
+  [Algo.AStar]: "<b>A* (A-star)</b> algorithm is an informed search algorithm that finds the shortest path between two nodes in a graph",
+  [Algo.BiA]: "<b>Bidirectional A*</b> algorithm is an optimized version of A* that searches from both the start and end nodes simultaneously to find the shortest path",
+};
+
 
 export type HeuristicFunc = (nodeA: Node, nodeB: Node) => number;

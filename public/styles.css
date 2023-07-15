@@ -200,7 +200,7 @@ main {
 .sub-nav {
   display: flex;
   justify-content: center;
-  margin: 2rem;
+  margin-top: 2rem;
 }
 
 .site-button {
@@ -246,6 +246,11 @@ main {
 .guide .special-node {
   filter: invert(var(--invert-fill));
   border: none;
+}
+
+#algo-info {
+  padding: 0.25rem;
+  text-align: center;
 }
 
 table {
@@ -450,6 +455,10 @@ footer svg {
     width: 30px;
     height: 30px;
     background-size: 18px;
+  }
+
+  #algo-selection {
+    display: none;
   }
 
   #tutorial {

@@ -13,7 +13,7 @@ export class Grid {
   private draggingNode: Node | undefined;
   private clickedNode: Node | undefined;
   private draggingType!: NodeType;
-  private currentAlgorithm: Algo = Algo.Dijkstra;
+  public currentAlgorithm: Algo = Algo.Dijkstra;
 
   public animationRunning: boolean = false;
 

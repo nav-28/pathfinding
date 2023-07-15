@@ -1,6 +1,6 @@
 import { Grid } from "./grid";
 import { tutorialContent } from './tutorial';
-import { Algo } from './types';
+import { Algo, AlgoDesc } from './types';
 
 
 
@@ -29,11 +29,17 @@ toggleButton.addEventListener("click", function () {
 
 
 // algo selector
+
+document.getElementById('algo-info')!.innerHTML = AlgoDesc[grid.currentAlgorithm];
+
 export function changeAlgo(algo: string): void {
   const algoText = document.getElementById('algo-selection');
+  const algoDesc = document.getElementById('algo-info');
+  if (!algoDesc) return;
   if (!algoText) return;
   grid.setAlgorithm(algo as Algo);
   algoText.textContent = algo;
+  algoDesc.innerHTML = AlgoDesc[algo as Algo];
 }
 
 // speed selector
