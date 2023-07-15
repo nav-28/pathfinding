@@ -1,5 +1,5 @@
 import { Node, NodeType, SearchResult, Algo } from "./types";
-import { dijkstra, bfs, dfs, aStar } from "./algorithms";
+import { dijkstra, bfs, dfs, aStar, bidirectionalAStar } from "./algorithms";
 import { manhattanDistance } from "./heuristics";
 
 export class Grid {
@@ -110,13 +110,15 @@ export class Grid {
   clearPath(): void {
     if (this.gridAnimated) {
       this.visitedNodes.forEach((node) => {
-        if (node.isSpecialNode()) return;
+        if (node.isSpecialNode() || node.isWallNode()) return;
         node.element.className = NodeType.Default;
       });
       this.pathNodes.forEach((node) => {
-        if (node.isSpecialNode()) return;
+        if (node.isSpecialNode() || node.isWallNode()) return;
         node.element.className = NodeType.Default;
       });
+      this.getStartNode().element.classList.remove(NodeType.Path);
+      this.getEndNode().element.classList.remove(NodeType.Path);
       this.visitedNodes = [];
       this.pathNodes = [];
       this.gridAnimated = false;
@@ -144,7 +146,10 @@ export class Grid {
             this.animationRunning = false;
           }
 
-          if (node.isSpecialNode()) return;
+          if (node.isSpecialNode()) {
+            node.element.classList.add(NodeType.Path);
+            return;
+          }
           node.element.className = NodeType.Path;
         },
         (result.expandedNodes.length + index) * this.animatationSpeed,
@@ -158,7 +163,6 @@ export class Grid {
       node.element.className = NodeType.Default;
     });
     this.pathNodes.forEach((node) => {
-      if (node.isSpecialNode()) return;
       node.element.classList.remove(NodeType.Path);
     });
 
@@ -170,7 +174,10 @@ export class Grid {
       node.element.className = NodeType.Visited;
     });
     result.path.forEach((node) => {
-      if (node.isSpecialNode()) return;
+      if (node.isSpecialNode()) {
+        node.element.classList.add(NodeType.Path);
+        return;
+      }
       node.element.className = NodeType.Path;
     });
   }
@@ -321,6 +328,8 @@ export class Grid {
         return dfs(this);
       case Algo.AStar:
         return aStar(this, manhattanDistance);
+      case Algo.BiA:
+        return bidirectionalAStar(this, manhattanDistance);
     }
   }
 

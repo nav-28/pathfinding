@@ -36,6 +36,7 @@ export enum Algo {
   Bfs = "Breath First Search",
   Dfs = "Depth First Search",
   AStar = "A*",
+  BiA = "Bidirectional A*",
 }
 
 
