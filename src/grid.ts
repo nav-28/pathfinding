@@ -200,7 +200,7 @@ export class Grid {
       event.clientY
     ) as HTMLElement;
 
-    if (this.draggingNode.type == NodeType.StartNode || this.draggingNode.type == NodeType.EndNode) {
+    if (this.draggingNode.isSpecialNode()) {
       this.handleSpecialNodeUpdate(clickedNode);
     } else {
       this.handleDefaultOrWallNodeUpdate(clickedNode);
@@ -215,9 +215,7 @@ export class Grid {
       touch.clientX,
       touch.clientY
     ) as HTMLElement;
-    if (this.draggingNode.type == NodeType.StartNode || this.draggingNode.type == NodeType.EndNode) {
-
-      if (!touchedNode || !touchedNode.classList.contains(NodeType.Default)) return;
+    if (this.draggingNode.isSpecialNode()) {
       this.handleSpecialNodeUpdate(touchedNode);
     }
     else {
