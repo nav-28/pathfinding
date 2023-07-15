@@ -32,7 +32,6 @@
   --theme-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="36" height="36" viewBox="0 0 36 36"%3E%3Cpath fill="%23102770" d="M18 6.42a1 1 0 0 0 1-1V1.91a1 1 0 0 0-2 0v3.51a1 1 0 0 0 1 1Z" class="clr-i-solid clr-i-solid-path-1"%2F%3E%3Cpath fill="%23102770" d="M18 29.58a1 1 0 0 0-1 1v3.51a1 1 0 0 0 2 0v-3.51a1 1 0 0 0-1-1Z" class="clr-i-solid clr-i-solid-path-2"%2F%3E%3Cpath fill="%23102770" d="M8.4 9.81A1 1 0 0 0 9.81 8.4L7.33 5.92a1 1 0 0 0-1.41 1.41Z" class="clr-i-solid clr-i-solid-path-3"%2F%3E%3Cpath fill="%23102770" d="M27.6 26.19a1 1 0 0 0-1.41 1.41l2.48 2.48a1 1 0 0 0 1.41-1.41Z" class="clr-i-solid clr-i-solid-path-4"%2F%3E%3Cpath fill="%23102770" d="M6.42 18a1 1 0 0 0-1-1H1.91a1 1 0 0 0 0 2h3.51a1 1 0 0 0 1-1Z" class="clr-i-solid clr-i-solid-path-5"%2F%3E%3Cpath fill="%23102770" d="M34.09 17h-3.51a1 1 0 0 0 0 2h3.51a1 1 0 0 0 0-2Z" class="clr-i-solid clr-i-solid-path-6"%2F%3E%3Cpath fill="%23102770" d="m8.4 26.19l-2.48 2.48a1 1 0 0 0 1.41 1.41l2.48-2.48a1 1 0 0 0-1.41-1.41Z" class="clr-i-solid clr-i-solid-path-7"%2F%3E%3Cpath fill="%23102770" d="m27.6 9.81l2.48-2.48a1 1 0 0 0-1.41-1.41L26.19 8.4a1 1 0 0 0 1.41 1.41Z" class="clr-i-solid clr-i-solid-path-8"%2F%3E%3Ccircle cx="18" cy="18" r="10" fill="%23102770" class="clr-i-solid clr-i-solid-path-9"%2F%3E%3Cpath fill="none" d="M0 0h36v36H0z"%2F%3E%3C%2Fsvg%3E');
   --invert-fill: 1;
   --mode-color-opposite: #fff;
-  color: #fff;
 }
 
 html,
@@ -228,6 +227,7 @@ main {
 }
 
 .guide li {
+  color: var(--mode-color-opposite);
   display: inline-block;
   padding: 5px;
   text-align: center;
@@ -274,13 +274,11 @@ td {
   background-color: #284190;
   border: 1px solid #808080;
   animation-name: specialNodes;
-  animation-duration: 1s;
+  animation-duration: 200ms;
   animation-timing-function: ease-out;
   animation-delay: 0;
   animation-direction: alternate;
   animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-play-state: running;
 }
 
 .special-node {
@@ -295,8 +293,6 @@ td {
   animation-delay: 0;
   animation-direction: alternate;
   animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-play-state: running;
 }
 
 .special-node.path-node {
@@ -315,9 +311,8 @@ td {
 .path-node {
   background-color: var(--path-node-color);
   animation-name: pathAnimation;
-  animation-duration: 2s;
+  animation-duration: 500ms;
   animation-timing-function: ease-in-out;
-  animation-fill-mode: forwards;
   border: 1px solid #808080;
 }
 

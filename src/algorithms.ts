@@ -1,4 +1,4 @@
-import { Node } from "./edge";
+import { Node } from "./node";
 import { Grid } from "./grid";
 
 export interface SearchResult {

@@ -16,4 +16,12 @@ export class Node {
     public type: NodeType,
     public element: HTMLTableCellElement,
   ) {}
+
+  isSpecialNode(): boolean {
+    return this.type == NodeType.StartNode || this.type == NodeType.EndNode;
+  }
+
+  isWallNode(): boolean {
+    return this.type == NodeType.Wall;
+  }
 }

@@ -1,4 +1,4 @@
-import { Node, NodeType } from "./edge";
+import { Node, NodeType } from "./node";
 import { SearchResult, dijkstra } from "./algorithms";
 
 export class Grid {
@@ -108,10 +108,12 @@ export class Grid {
   clearPath(): void {
     if (this.gridAnimated) {
       this.visitedNodes.forEach((node) => {
-        node.element.classList.remove(NodeType.Visited);
+        if (node.isSpecialNode()) return;
+        node.element.className = NodeType.Default;
       });
       this.pathNodes.forEach((node) => {
-        node.element.classList.remove(NodeType.Path);
+        if (node.isSpecialNode()) return;
+        node.element.className = NodeType.Default;
       });
       this.visitedNodes = [];
       this.pathNodes = [];
@@ -128,19 +130,20 @@ export class Grid {
     this.pathNodes = result.path;
     this.visitedNodes.forEach((node, index) => {
       setTimeout(() => {
-        if (node.type == NodeType.Wall) return;
-        node.element.classList.add(NodeType.Visited);
+        if (node.isSpecialNode() || node.isWallNode()) return;
+        node.element.className = NodeType.Visited;
       }, index * this.animatationSpeed);
     });
 
     this.pathNodes.forEach((node, index) => {
       setTimeout(
         () => {
-          node.element.classList.remove(NodeType.Visited);
-          node.element.classList.add(NodeType.Path);
           if (index == this.pathNodes.length - 1) {
             this.animationRunning = false;
           }
+
+          if (node.isSpecialNode()) return;
+          node.element.className = NodeType.Path;
         },
         (result.expandedNodes.length + index) * this.animatationSpeed,
       );
@@ -149,9 +152,11 @@ export class Grid {
 
   showPath(): void {
     this.visitedNodes.forEach((node) => {
-      node.element.classList.remove(NodeType.Visited);
+      if (node.isSpecialNode() || node.isWallNode()) return;
+      node.element.className = NodeType.Default;
     });
     this.pathNodes.forEach((node) => {
+      if (node.isSpecialNode()) return;
       node.element.classList.remove(NodeType.Path);
     });
 
@@ -159,12 +164,12 @@ export class Grid {
     this.visitedNodes = result.expandedNodes;
     this.pathNodes = result.path;
     result.expandedNodes.forEach((node) => {
-      if (node.type == NodeType.Wall) return;
-      node.element.classList.add(NodeType.Visited);
+      if (node.isSpecialNode() || node.isWallNode()) return;
+      node.element.className = NodeType.Visited;
     });
     result.path.forEach((node) => {
-      node.element.classList.remove(NodeType.Visited);
-      node.element.classList.add(NodeType.Path);
+      if (node.isSpecialNode()) return;
+      node.element.className = NodeType.Path;
     });
   }
 
@@ -255,7 +260,7 @@ export class Grid {
   }
 
   handleSpecialNodeUpdate(newSpecialNode: HTMLElement | null): void {
-    if (!newSpecialNode || !newSpecialNode.classList.contains(NodeType.Default) || !newSpecialNode.classList.contains(NodeType.Default))
+    if (!newSpecialNode || newSpecialNode.classList.contains(NodeType.EndNode) || newSpecialNode.classList.contains(NodeType.StartNode))
       return;
 
     const [newRow, newCol] = newSpecialNode.id.split("-").map(Number);

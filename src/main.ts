@@ -13,7 +13,7 @@ function calculateGridHeight(): number {
   return window.innerHeight - top! - footer! - header!;
 }
 
-var grid = new Grid((calculateGridHeight() / 25) - 4, window.innerWidth / 25);
+var grid = new Grid((calculateGridHeight() / 25) - 3, window.innerWidth / 25);
 
 export function runAnimation(): void {
   if (!grid.animationRunning) {
