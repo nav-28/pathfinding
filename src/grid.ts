@@ -1,5 +1,6 @@
-import { Node, NodeType } from "./node";
-import { SearchResult, dijkstra, Algo, bfs, dfs } from "./algorithms";
+import { Node, NodeType, SearchResult, Algo } from "./types";
+import { dijkstra, bfs, dfs, aStar } from "./algorithms";
+import { manhattanDistance } from "./heuristics";
 
 export class Grid {
   private nodes: Node[][] = [];
@@ -318,6 +319,8 @@ export class Grid {
         return bfs(this);
       case Algo.Dfs:
         return dfs(this);
+      case Algo.AStar:
+        return aStar(this, manhattanDistance);
     }
   }
 

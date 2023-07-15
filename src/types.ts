@@ -25,3 +25,18 @@ export class Node {
     return this.type == NodeType.Wall;
   }
 }
+
+export interface SearchResult {
+  expandedNodes: Node[];
+  path: Node[];
+}
+
+export enum Algo {
+  Dijkstra = "Dijkstra",
+  Bfs = "Breath First Search",
+  Dfs = "Depth First Search",
+  AStar = "A*",
+}
+
+
+export type HeuristicFunc = (nodeA: Node, nodeB: Node) => number;

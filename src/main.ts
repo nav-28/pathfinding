@@ -1,6 +1,6 @@
 import { Grid } from "./grid";
 import { tutorialContent } from './tutorial';
-import { Algo } from './algorithms';
+import { Algo } from './types';
 
 
 
