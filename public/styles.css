@@ -249,8 +249,13 @@ main {
 }
 
 #algo-info {
+  color: var(--mode-color-opposite);
   padding: 0.25rem;
   text-align: center;
+}
+
+#algo-info b {
+  color: var(--background-color);
 }
 
 table {

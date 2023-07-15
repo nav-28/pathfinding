@@ -43,6 +43,8 @@ export function changeAlgo(algo: string): void {
 }
 
 // speed selector
+document.getElementById("speed-selection")!.textContent = 'Fast';
+grid.setAnimationSpeed(50);
 export function changeSpeed(speed: string): void {
   const speedText = document.getElementById("speed-selection");
   if (!speedText) {
@@ -144,18 +146,17 @@ function changeTutorialContent() {
 
 // window.addEventListener("resize", updateGridSize);
 // TODO:
+// Fix Bi-A*
 // Deal with hover effect on mobile
 // Add Tutorial.
 // Add More Algorithms
-// Add Heuristics
-// Add walls
 // Add weights
 //
 // (Maybe Mazes)
 //
 // Algorithms:
 // Uninformed Search
-// BFS, DFS, Dijkstra, Bi-Bs, IDDFS,
+//  Bi-Bs, IDDFS,
 // Informed Search uses heuristics
-// A*, IA*, Bi-A*, MM, Weighted A*, Weighted IDA*
+// IA*, Bi-A*, MM, Weighted A*, Weighted IDA*
 //
